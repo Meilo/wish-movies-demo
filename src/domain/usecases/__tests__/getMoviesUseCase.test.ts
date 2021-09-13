@@ -1,12 +1,15 @@
 import MoviesPresenter from "adapter/presenters/MoviesPresenter";
+import MoviesRepository from "adapter/repositories/MoviesRepository";
 import GetMoviesUseCase from "../GetMoviesUseCase";
 import { Movies } from "../../fixtures";
 
 describe("GetMoviesUseCase", () => {
-  const movies = new GetMoviesUseCase(Movies, new MoviesPresenter());
+  const movies = new GetMoviesUseCase(new MoviesRepository(() => Movies));
 
-  it("Should return a list of movies", () => {
-    expect(movies.execute()).toStrictEqual([
+  it("Should return a list of movies", async () => {
+    expect(
+      await movies.execute(undefined, undefined, new MoviesPresenter())
+    ).toStrictEqual([
       {
         id: 1,
         title: "Naruto",
@@ -46,9 +49,10 @@ describe("GetMoviesUseCase", () => {
     ]);
   });
 
-  it("Should return the first five films of the list", () => {
-    expect(movies.execute(5).length).toBe(5);
-    expect(movies.execute(5)).toStrictEqual([
+  it("Should return the first five films of the list", async () => {
+    const result = await movies.execute(5, undefined, new MoviesPresenter());
+    expect(result.length).toBe(5);
+    expect(result).toStrictEqual([
       {
         id: 1,
         title: "Naruto",
@@ -82,8 +86,8 @@ describe("GetMoviesUseCase", () => {
     ]);
   });
 
-  it("Should return backdrop image in the list of movies", () => {
-    expect(movies.execute(1, true)).toStrictEqual([
+  it("Should return backdrop image in the list of movies", async () => {
+    expect(await movies.execute(1, true, new MoviesPresenter())).toStrictEqual([
       {
         id: 1,
         title: "Naruto",

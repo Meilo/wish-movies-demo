@@ -5,6 +5,8 @@ export interface MoviesMethods {
     limit: number | undefined
   ): Promise<ReadonlyArray<MovieTransformed> | undefined>;
   getMovie(
-    toTransformed: boolean | undefined
+    toTransformed: boolean | undefined,
+    withBackDropImage: boolean | undefined,
+    movieId: number
   ): Promise<Movie | MovieTransformed>;
 }

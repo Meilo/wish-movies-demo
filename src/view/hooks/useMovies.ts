@@ -4,14 +4,13 @@ import { getDiscoverMovies } from "view/api";
 
 const useMovies = () => {
   const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   const showMovies = async () => {
     try {
       const movies = new Movies(() => getDiscoverMovies());
-      const result = await movies.getMovies(5);
-      setData(result);
+      setData(await movies.getMovies(5));
       setIsLoading(movies.isLoading);
     } catch (err) {
       setError(err);

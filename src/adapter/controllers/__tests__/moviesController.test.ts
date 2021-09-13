@@ -98,15 +98,15 @@ describe("Movies", () => {
 });
 
 describe("Movie", () => {
-  const movie = new Movies(() => getMovieById(1));
+  const movie = new Movies((movieId: number) => getMovieById(movieId));
 
   it("Should return a movie", async () => {
-    const result = await movie.getMovie(false);
+    const result = await movie.getMovie(false, false, 1);
     expect(result).toStrictEqual(MoviesData[0]);
   });
 
   it("Should return a transformed movie", async () => {
-    const result = await movie.getMovie();
+    const result = await movie.getMovie(true, false, 1);
     expect(result).toStrictEqual({
       id: 1,
       title: "Naruto",
@@ -116,7 +116,7 @@ describe("Movie", () => {
   });
 
   it("Should return a transformed movie with backdrop image", async () => {
-    const result = await movie.getMovie(true, true);
+    const result = await movie.getMovie(true, true, 1);
     expect(result).toStrictEqual({
       id: 1,
       title: "Naruto",

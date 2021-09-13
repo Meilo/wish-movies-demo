@@ -1,16 +1,21 @@
 import MoviesPresenter from "adapter/presenters/MoviesPresenter";
+import MoviesRepository from "adapter/repositories/MoviesRepository";
+import { Movie, MovieTransformed } from "domain/models";
 import { GetMovieUseCaseMethods } from "./methodes";
-import { Movie } from "../models";
 
 export default class GetMovieUseCase implements GetMovieUseCaseMethods {
-  constructor(private repository: Movie, private presenter: MoviesPresenter) {}
+  constructor(private movieRepository: MoviesRepository) {}
 
-  execute(
+  async execute(
     toTransformed: boolean | undefined = true,
-    withBackDropImage: boolean | undefined = false
-  ) {
+    withBackDropImage: boolean | undefined = false,
+    presenter: MoviesPresenter,
+    movieId: number
+  ): Promise<Movie | MovieTransformed> {
+    presenter.isLoadingHandler(true);
+    const movie = await this.movieRepository.getMovieById(movieId);
     return toTransformed
-      ? this.presenter.show([this.repository], withBackDropImage)[0]
-      : this.repository;
+      ? presenter.show([movie], withBackDropImage)[0]
+      : movie;
   }
 }
