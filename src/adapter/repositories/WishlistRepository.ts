@@ -11,4 +11,7 @@ export default class WishlistRepository implements WishLiktsRepositoryMethods {
   addMovieInWishlist() {
     return this.repositories.addMovieInWishlist();
   }
+  removeMovieInWishlist() {
+    return this.repositories.removeMovieInWishlist();
+  }
 }

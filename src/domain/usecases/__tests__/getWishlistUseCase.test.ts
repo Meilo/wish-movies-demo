@@ -1,14 +1,9 @@
 import WishlistPresenter from "adapter/presenters/WishlistPresenter";
 import WishlistRepository from "adapter/repositories/WishlistRepository";
+import { wishlistReposiortyMock } from "view/api/fixtures/repositories";
 import GetWishlistUseCase from "../GetWishlistUseCase";
-import getMyWishlist from "view/api/__mocks__/getMyWishlist";
-import getItemStatusInWishlist from "view/api/__mocks__/getItemStatusInWishlist";
 
-const wishlistRepository = new WishlistRepository({
-  getMyWishlist,
-  getItemStatusInWishlist,
-  addMovieInWishlist: () => Promise.resolve({ statusCode: 200 }),
-});
+const wishlistRepository = new WishlistRepository(wishlistReposiortyMock);
 
 describe("GetWishlistUseCase", () => {
   const wishlist = new GetWishlistUseCase(wishlistRepository);

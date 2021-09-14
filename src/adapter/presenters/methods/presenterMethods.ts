@@ -1,4 +1,4 @@
 export interface PresenterMethods {
-  showErrorMessage(msg: string): string;
-  showSuccessMessage(msg: string): string;
+  showErrorMessage(msg: string): { type: string; message: string };
+  showSuccessMessage(msg: string): { type: string; message: string };
 }

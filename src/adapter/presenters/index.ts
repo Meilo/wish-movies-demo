@@ -2,9 +2,9 @@ import { PresenterMethods } from "./methods/presenterMethods";
 
 export default class Presenter implements PresenterMethods {
   showErrorMessage(msg: string) {
-    return msg;
+    return { type: "error", message: msg };
   }
   showSuccessMessage(msg: string) {
-    return msg;
+    return { type: "success", message: msg };
   }
 }

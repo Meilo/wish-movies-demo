@@ -1,14 +1,10 @@
 import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
-import getDiscoverMovies from "view/api/__mocks__/getDiscoverMovies";
-import getMovieById from "view/api/__mocks__/getMovieById";
 import { Movies } from "view/api/fixtures";
+import { moviesRepositoryMock } from "view/api/fixtures/repositories";
 import GetMovieUseCase from "../GetMovieUseCase";
 
-const moviesRepository = new MoviesRepository({
-  getDiscoverMovies,
-  getMovieById,
-});
+const moviesRepository = new MoviesRepository(moviesRepositoryMock);
 
 describe("GetMovieUseCase", () => {
   const movie = new GetMovieUseCase(moviesRepository);
