@@ -16,6 +16,9 @@ export default class MoviesPresenter
     return `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
   }
 
+  private truncate = (input: string) =>
+    input.length > 100 ? `${input.substring(0, 100)}...` : input;
+
   show(
     untransformedMovies: ReadonlyArray<Movie>,
     withBackDropImage: boolean | undefined = false
@@ -27,7 +30,7 @@ export default class MoviesPresenter
       poster: withBackDropImage
         ? this.imagePath(movie.backdrop_path)
         : this.imagePath(movie.poster_path),
-      overview: movie.overview,
+      overview: this.truncate(movie.overview),
     }));
   }
 }

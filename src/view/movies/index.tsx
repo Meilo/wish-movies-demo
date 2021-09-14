@@ -1,42 +1,57 @@
 import React, { ReactElement } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import { Button, ListItem } from "@ui-kitten/components";
+
 import useMovies from "../hooks/useMovies";
 
 export default function Movies(): ReactElement {
   const { data, error, isLoading } = useMovies();
-  if (isLoading)
+  if (isLoading || !data)
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Loading...</Text>
+        <Text>Loading...</Text>
       </View>
     );
 
   if (error) {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>An error</Text>
+        <Text>An error</Text>
       </View>
     );
   }
 
   return (
-    <FlatList
-      data={data}
-      keyExtractor={(movie) => String(movie.id)}
-      contentContainerStyle={styles.container}
-      renderItem={({ item }) => <Text style={styles.text}>{item.title}</Text>}
-    />
+    <>
+      <Image style={styles.thumbnail} source={{ uri: data[0].poster }} />
+      <FlatList
+        data={data}
+        keyExtractor={(movie) => String(movie.id)}
+        renderItem={({ item }) => (
+          <ListItem
+            title={item.title}
+            description={item.overview}
+            accessoryLeft={(props: any) => (
+              <Image
+                {...props}
+                style={[props.style, styles.image]}
+                source={{ uri: item.poster }}
+              />
+            )}
+            accessoryRight={() => <Button size="tiny">Add to wishlist</Button>}
+          />
+        )}
+      />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  thumbnail: { width: "100%", height: "50%" },
+  image: { tintColor: null, width: 80, height: 100 },
   container: {
     flex: 1,
-    backgroundColor: "#333",
     alignItems: "center",
     justifyContent: "center",
-  },
-  text: {
-    color: "#fff",
   },
 });
