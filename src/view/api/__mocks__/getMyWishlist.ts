@@ -1,5 +1,5 @@
 import { Wishlist } from "domain/models";
-import { Movies } from "domain/fixtures";
+import { Movies } from "view/api/fixtures";
 
 const getMyWishlist = (): Promise<Wishlist> => {
   return Promise.resolve({

@@ -1,10 +1,17 @@
 import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
+import getDiscoverMovies from "view/api/__mocks__/getDiscoverMovies";
+import getMovieById from "view/api/__mocks__/getMovieById";
+import { Movies } from "view/api/fixtures";
 import GetMovieUseCase from "../GetMovieUseCase";
-import { Movies } from "../../fixtures";
+
+const moviesRepository = new MoviesRepository({
+  getDiscoverMovies,
+  getMovieById,
+});
 
 describe("GetMovieUseCase", () => {
-  const movie = new GetMovieUseCase(new MoviesRepository(() => Movies[0]));
+  const movie = new GetMovieUseCase(moviesRepository);
 
   it("Should return a movie", async () => {
     expect(await movie.execute(false, false, new MoviesPresenter(), 1)).toBe(

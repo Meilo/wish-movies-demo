@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList } from "react-native";
 import useMovies from "../hooks/useMovies";
 
 export default function Movies(): ReactElement {
-  const { data, isLoading, error } = useMovies();
+  const { data, error, isLoading } = useMovies();
   if (isLoading)
     return (
       <View style={styles.container}>
@@ -11,12 +11,13 @@ export default function Movies(): ReactElement {
       </View>
     );
 
-  if (error)
+  if (error) {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Error: contact your admin</Text>
+        <Text style={styles.text}>An error</Text>
       </View>
     );
+  }
 
   return (
     <FlatList

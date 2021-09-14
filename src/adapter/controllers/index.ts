@@ -1,2 +1,2 @@
-export { default as Movies } from "./MoviesContoller";
-export { default as Wishlist } from "./WishlistController";
+export { default as MoviesController } from "./MoviesContoller";
+export { default as WishlistController } from "./WishlistController";

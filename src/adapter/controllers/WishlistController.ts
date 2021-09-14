@@ -2,22 +2,30 @@ import { GetWishlistUseCase, AddMovieInWishlistUseCase } from "domain/usecases";
 import WishlistPresenter from "../presenters/WishlistPresenter";
 import { WishlistMethods } from "./methods";
 
-export default class Wishlist implements WishlistMethods {
-  constructor(private request: Function) {}
+export default class WishlistController
+  extends WishlistPresenter
+  implements WishlistMethods
+{
+  constructor(
+    private usecases: {
+      getWishlistUseCase: GetWishlistUseCase;
+      addMovieInWishlistUseCase: AddMovieInWishlistUseCase;
+    },
+    private wishlistPresenter: WishlistPresenter
+  ) {
+    super();
+  }
 
   async getWishlist() {
-    const wishlist = await this.request();
-    const usecase = new GetWishlistUseCase(wishlist, new WishlistPresenter());
-    return usecase.execute();
+    return await this.usecases.getWishlistUseCase.execute(
+      this.wishlistPresenter
+    );
   }
 
   async addMovieInWishlist(movieId: number) {
-    const isPresent = await this.request(movieId);
-    const usecase = new AddMovieInWishlistUseCase(
-      isPresent,
-      () => Promise.resolve({ statusCode: 200 }), // Todo: implement addMovie
-      new WishlistPresenter()
+    return await this.usecases.addMovieInWishlistUseCase.execute(
+      movieId,
+      this.wishlistPresenter
     );
-    return await usecase.execute();
   }
 }

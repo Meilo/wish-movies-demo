@@ -1,4 +1,4 @@
-import { Movies } from "domain/fixtures";
+import { Movies } from "view/api/fixtures";
 import { Movie } from "domain/models";
 
 const getDiscoverMovies = (): Promise<ReadonlyArray<Movie>> => {

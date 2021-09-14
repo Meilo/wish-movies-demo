@@ -1,4 +1,4 @@
-import { Wishlist } from "domain/fixtures";
+import { Wishlist } from "view/api/fixtures";
 
 const getItemStatusInWishlist = (movieId: number): Promise<boolean> => {
   const list = Wishlist.items.find((movie) => movie.id === movieId);

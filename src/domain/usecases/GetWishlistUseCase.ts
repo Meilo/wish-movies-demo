@@ -1,14 +1,11 @@
 import WishlistPresenter from "adapter/presenters/WishlistPresenter";
+import WishlistRepository from "adapter/repositories/WishlistRepository";
 import { GetWishlistUseCaseMethods } from "./methodes";
-import { Wishlist } from "../models";
 
 export default class GetWishlistUseCase implements GetWishlistUseCaseMethods {
-  constructor(
-    private repository: Wishlist,
-    private presenter: WishlistPresenter
-  ) {}
+  constructor(private wishlistRepository: WishlistRepository) {}
 
-  execute() {
-    return this.presenter.show(this.repository);
+  async execute(presenter: WishlistPresenter) {
+    return presenter.show(await this.wishlistRepository.getMyWishlist());
   }
 }

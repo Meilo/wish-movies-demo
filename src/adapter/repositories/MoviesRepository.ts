@@ -1,14 +1,14 @@
-import { Movie } from "domain/models/movie";
+import { Movie } from "domain/models";
 import { MoviesRepositoryMethods } from "./methods/MoviesRepositoryMethods";
 
 export default class MoviesRepository implements MoviesRepositoryMethods {
-  constructor(private request: Function) {}
+  constructor(private repositories: MoviesRepositoryMethods) {}
 
   getDiscoverMovies(): Promise<ReadonlyArray<Movie>> {
-    return this.request();
+    return this.repositories.getDiscoverMovies();
   }
 
   getMovieById(movieId: number): Promise<Movie> {
-    return this.request(movieId);
+    return this.repositories.getMovieById(movieId);
   }
 }
