@@ -1,36 +1,32 @@
-import { Movie, MovieTransformed } from "domain/models";
+import { MovieIntegraleTransformed, MovieTransformed } from "domain/models";
 import { MoviesPresenterMethods } from "./methods/moviesPresenterMethods";
-import Presenter from ".";
+import Presenter from "./Presenter";
 
-export default class MoviesPresenter
-  extends Presenter
+export class MoviesPresenterVM {
+  loading = false;
+  movies?:
+    | ReadonlyArray<MovieTransformed>
+    | ReadonlyArray<MovieIntegraleTransformed>;
+}
+
+export class MoviesPresenter
+  extends Presenter<MoviesPresenterVM>
   implements MoviesPresenterMethods
 {
-  public isLoading: boolean = false;
-
-  public isLoadingHandler(status: boolean) {
-    this.isLoading = status;
+  constructor() {
+    super(new MoviesPresenterVM());
   }
 
-  private imagePath(path: string) {
-    return `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
+  displayMoviesLoading(): void {
+    this.vm.loading = true;
   }
 
-  private truncate = (input: string) =>
-    input.length > 100 ? `${input.substring(0, 100)}...` : input;
-
-  show(
-    untransformedMovies: ReadonlyArray<Movie>,
-    withBackDropImage: boolean | undefined = false
-  ): ReadonlyArray<MovieTransformed> {
-    this.isLoadingHandler(false);
-    return untransformedMovies.map((movie: Movie) => ({
-      id: movie.id,
-      title: movie.title,
-      poster: withBackDropImage
-        ? this.imagePath(movie.backdrop_path)
-        : this.imagePath(movie.poster_path),
-      overview: this.truncate(movie.overview),
-    }));
+  displayMovies(
+    movies:
+      | ReadonlyArray<MovieTransformed>
+      | ReadonlyArray<MovieIntegraleTransformed>
+  ): void {
+    this.vm.movies = movies;
+    this.vm.loading = false;
   }
 }

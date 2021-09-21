@@ -3,9 +3,12 @@ import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import { Button, ListItem } from "@ui-kitten/components";
 
 import useMovies from "../hooks/useMovies";
+import useMoviesController from "../hooks/useMoviesController";
 
 export default function Movies(): ReactElement {
-  const { data, error, isLoading } = useMovies();
+  const { vm, controller } = useMoviesController();
+  const { data, error, isLoading } = useMovies({ vm, controller });
+
   if (isLoading || !data)
     return (
       <View style={styles.container}>
@@ -16,7 +19,7 @@ export default function Movies(): ReactElement {
   if (error) {
     return (
       <View style={styles.container}>
-        <Text>An error</Text>
+        <Text>An error detected</Text>
       </View>
     );
   }
@@ -35,7 +38,7 @@ export default function Movies(): ReactElement {
               <Image
                 {...props}
                 style={[props.style, styles.image]}
-                source={{ uri: item.poster }}
+                source={{ uri: item?.poster }}
               />
             )}
             accessoryRight={() => <Button size="tiny">Add to wishlist</Button>}

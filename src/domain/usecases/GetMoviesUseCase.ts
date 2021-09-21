@@ -1,6 +1,7 @@
-import MoviesPresenter from "adapter/presenters/MoviesPresenter";
+import { MoviesPresenter } from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
-import { MovieTransformed } from "../models";
+import { truncate, imagePath } from "domain/helpers";
+import { Movie } from "../models";
 import { GetMoviesUseCaseMethods } from "./methodes";
 
 export default class GetMoviesUseCase implements GetMoviesUseCaseMethods {
@@ -10,10 +11,22 @@ export default class GetMoviesUseCase implements GetMoviesUseCaseMethods {
     limit: number | undefined = undefined,
     withBackDropImage: boolean | undefined = false,
     presenter: MoviesPresenter
-  ): Promise<ReadonlyArray<MovieTransformed>> {
-    presenter.isLoadingHandler(true);
+  ): Promise<void> {
+    presenter.displayMoviesLoading();
     const movies = await this.moviesRepository.getDiscoverMovies();
     const nbItems: number = limit || movies.length;
-    return presenter.show(movies.slice(0, nbItems), withBackDropImage);
+    if (movies?.length > 0) {
+      const moviesTransformed = movies
+        .slice(0, nbItems)
+        .map((movie: Movie) => ({
+          id: movie.id,
+          title: movie.title,
+          poster: withBackDropImage
+            ? imagePath(movie.backdrop_path)
+            : imagePath(movie.poster_path),
+          overview: truncate(movie.overview),
+        }));
+      presenter.displayMovies(moviesTransformed);
+    }
   }
 }

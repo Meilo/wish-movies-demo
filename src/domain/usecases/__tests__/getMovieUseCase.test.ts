@@ -1,39 +1,67 @@
-import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
-import { Movies } from "view/api/fixtures";
-import { moviesRepositoryMock } from "view/api/fixtures/repositories";
+import { moviesRepository as repository } from "view/api/repositories";
+import {
+  MovieIntegraleTransformed as MovieAllInfoTransformed,
+  MoviesTransformed,
+} from "view/api/fixtures";
+import { MovieIntegraleTransformed, MovieTransformed } from "domain/models";
 import GetMovieUseCase from "../GetMovieUseCase";
 
-const moviesRepository = new MoviesRepository(moviesRepositoryMock);
+jest.mock("view/api/repositories");
 
-describe("GetMovieUseCase", () => {
-  const movie = new GetMovieUseCase(moviesRepository);
+const vm: {
+  loading: boolean;
+  movies?:
+    | ReadonlyArray<MovieTransformed>
+    | ReadonlyArray<MovieIntegraleTransformed>;
+} = { loading: false, movies: undefined };
 
+const Presenter = {
+  displayMoviesLoading() {
+    vm.loading = true;
+  },
+  displayMovies() {
+    vm.movies = undefined;
+    vm.loading = false;
+  },
+  vm,
+};
+
+describe("GetMoviesUseCase", () => {
+  it("Should loading when haven't movie", async () => {
+    const moviesRepository = new MoviesRepository({
+      ...repository,
+      /* @ts-ignore */
+      getMovieById: () => Promise.resolve(null),
+    });
+    const usecase = new GetMovieUseCase(moviesRepository);
+    await usecase.execute(false, true, Presenter, 1);
+    expect(Presenter.vm.loading).toBeTruthy();
+  });
   it("Should return a movie", async () => {
-    expect(await movie.execute(false, false, new MoviesPresenter(), 1)).toBe(
-      Movies[0]
-    );
+    const moviesRepository = new MoviesRepository(repository);
+    const presenter = {
+      ...Presenter,
+      displayMovies() {
+        vm.movies = [MovieAllInfoTransformed];
+        vm.loading = false;
+      },
+    };
+    const usecase = new GetMovieUseCase(moviesRepository);
+    await usecase.execute(false, true, presenter, 1);
+    expect(presenter.vm.movies).toStrictEqual([MovieAllInfoTransformed]);
   });
-
-  it("Should return a transformed movie", async () => {
-    expect(
-      await movie.execute(true, false, new MoviesPresenter(), 1)
-    ).toStrictEqual({
-      id: 1,
-      title: "Naruto",
-      poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-      overview: "bla",
-    });
-  });
-
-  it("Should return backdrop image in the list of movies", async () => {
-    expect(
-      await movie.execute(true, true, new MoviesPresenter(), 1)
-    ).toStrictEqual({
-      id: 1,
-      title: "Naruto",
-      poster: "https://image.tmdb.org/t/p/w440_and_h660_facebackdrop_path",
-      overview: "bla",
-    });
+  it("Sould retun a movie transformed", async () => {
+    const moviesRepository = new MoviesRepository(repository);
+    const presenter = {
+      ...Presenter,
+      displayMovies() {
+        vm.movies = [MoviesTransformed[0]];
+        vm.loading = false;
+      },
+    };
+    const usecase = new GetMovieUseCase(moviesRepository);
+    await usecase.execute(true, true, presenter, 1);
+    expect(presenter.vm.movies).toStrictEqual([MoviesTransformed[0]]);
   });
 });

@@ -17,9 +17,7 @@ export default class WishlistController
   }
 
   async getWishlist() {
-    return await this.usecases.getWishlistUseCase.execute(
-      this.wishlistPresenter
-    );
+    await this.usecases.getWishlistUseCase.execute(this.wishlistPresenter);
   }
 
   async addMovieInWishlist(movieId: number) {

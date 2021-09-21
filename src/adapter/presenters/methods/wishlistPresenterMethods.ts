@@ -1,5 +1,6 @@
-import { Wishlist, WishlistTransformed } from "domain/models";
+import { WishlistTransformed } from "domain/models";
 
 export interface WishlistPresenterMethods {
-  show(wishlist: Wishlist): WishlistTransformed;
+  displayWishlistLoading(): void;
+  displayWishlist(wishlist: WishlistTransformed): void;
 }

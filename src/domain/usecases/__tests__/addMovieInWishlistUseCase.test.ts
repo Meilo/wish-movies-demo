@@ -1,6 +1,6 @@
 import WishlistPresenter from "adapter/presenters/WishlistPresenter";
 import WishlistRepository from "adapter/repositories/WishlistRepository";
-import { wishlistReposiortyMock } from "view/api/fixtures/repositories";
+import { wishlistReposiortyMock } from "view/api/__mocks__/repositories";
 import AddMovieInWishlistUseCase from "../AddMovieInWishlistUseCase";
 
 const wishlistRepository = new WishlistRepository(wishlistReposiortyMock);

@@ -1,29 +1,53 @@
-import WishlistPresenter from "adapter/presenters/WishlistPresenter";
 import WishlistRepository from "adapter/repositories/WishlistRepository";
-import { wishlistReposiortyMock } from "view/api/fixtures/repositories";
+import { WishlistTransformed } from "domain/models";
+import { wishlistRepository } from "view/api/repositories";
 import GetWishlistUseCase from "../GetWishlistUseCase";
 
-const wishlistRepository = new WishlistRepository(wishlistReposiortyMock);
+jest.mock("view/api/repositories");
+
+const vm: {
+  loading: boolean;
+  wishlist?: WishlistTransformed;
+} = { loading: false, wishlist: undefined };
+
+const Presenter = {
+  displayWishlistLoading() {
+    vm.loading = true;
+  },
+  displayWishlist() {
+    vm.wishlist = undefined;
+    vm.loading = false;
+  },
+  vm,
+};
+
+const fixtures = {
+  id: 1,
+  name: "myWishlist",
+  movies: [
+    {
+      id: 1,
+      title: "Naruto",
+      poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+      overview: "bla",
+    },
+  ],
+};
+
+const repository = new WishlistRepository(wishlistRepository);
 
 describe("GetWishlistUseCase", () => {
-  const wishlist = new GetWishlistUseCase(wishlistRepository);
-  it("Should return id of wishlist", async () => {
-    const result = await wishlist.execute(new WishlistPresenter());
-    expect(result.id).toBe(1);
-  });
-  it("Should return name of wishlist", async () => {
-    const result = await wishlist.execute(new WishlistPresenter());
-    expect(result.name).toBe("myWishlist");
-  });
-  it("Should return movies transformed of wishlist", async () => {
-    const result = await wishlist.execute(new WishlistPresenter());
-    expect(result.movies).toStrictEqual([
-      {
-        id: 1,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
+  const usecase = new GetWishlistUseCase(repository);
+  it("Should return a wishlist", async () => {
+    const presenter = {
+      ...Presenter,
+      displayWishlist() {
+        vm.wishlist = fixtures;
+        vm.loading = false;
       },
-    ]);
+    };
+    await usecase.execute(presenter);
+    expect(vm.wishlist).toStrictEqual(fixtures);
+    expect(vm.loading).toBeFalsy();
   });
 });

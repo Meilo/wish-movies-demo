@@ -1,50 +1,46 @@
 import React, { useState, useEffect } from "react";
-
-import { GetMoviesUseCase, GetMovieUseCase } from "domain/usecases";
 import { MoviesController } from "adapter/controllers";
-import MoviesRepository from "adapter/repositories/MoviesRepository";
-import MoviesPresenter from "adapter/presenters/MoviesPresenter";
-import { getDiscoverMovies, getMovieById } from "../api";
+import { MoviesPresenterVM } from "adapter/presenters/MoviesPresenter";
+import { MovieIntegraleTransformed, MovieTransformed } from "domain/models";
 
-const moviesRepository = new MoviesRepository({
-  getDiscoverMovies,
-  getMovieById,
-});
-const moviesController = new MoviesController(
-  {
-    getMoviesUseCase: new GetMoviesUseCase(moviesRepository),
-    getMovieUseCase: new GetMovieUseCase(moviesRepository),
-  },
-  new MoviesPresenter()
-);
-
-const useMovies = (movieId: number | undefined = undefined) => {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
+const useMovies = ({
+  movieId,
+  vm,
+  controller,
+}: {
+  movieId?: number;
+  vm: MoviesPresenterVM;
+  controller: MoviesController;
+}) => {
+  const [movies, setMovies] = useState<
+    | ReadonlyArray<MovieTransformed>
+    | ReadonlyArray<MovieIntegraleTransformed>
+    | undefined
+  >(vm.movies);
+  const [isLoading, setIsLoading] = useState<boolean>(vm.loading);
   const [error, setError] = useState<any>(null);
 
-  const showMovies = async () => {
-    try {
-      if (movieId) {
-        setData(await moviesController.getMovie({ movieId }));
-      } else {
-        setData(await moviesController.getMovies(5));
-      }
-      setIsLoading(moviesController.isLoading);
-    } catch (err) {
-      setError(err);
-    }
+  const getMovies = () => {
+    controller
+      .fetchMovies({ limit: 5, movieId })
+      .then(() => {
+        setMovies(vm.movies);
+        setIsLoading(vm.loading);
+      })
+      .catch((err: any) => {
+        setError(err);
+      });
   };
 
   useEffect(() => {
-    showMovies();
+    getMovies();
   }, []);
 
   return {
-    data,
+    data: movies,
     isLoading,
     error,
-    retry: showMovies,
+    retry: getMovies,
   };
 };
 

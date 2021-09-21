@@ -1,101 +1,65 @@
-import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
-import { moviesRepositoryMock } from "view/api/fixtures/repositories";
+import { moviesRepository as repository } from "view/api/repositories";
+import { MoviesTransformed as Movies } from "view/api/fixtures";
+import { MovieTransformed } from "domain/models";
 import GetMoviesUseCase from "../GetMoviesUseCase";
 
-const moviesRepository = new MoviesRepository(moviesRepositoryMock);
+jest.mock("view/api/repositories");
+
+const vm: {
+  loading: boolean;
+  movies: ReadonlyArray<MovieTransformed> | undefined;
+} = { loading: false, movies: undefined };
+
+const Presenter = {
+  displayMoviesLoading() {
+    vm.loading = true;
+  },
+  displayMovies() {
+    vm.movies = undefined;
+    vm.loading = false;
+  },
+  vm,
+};
 
 describe("GetMoviesUseCase", () => {
-  const movies = new GetMoviesUseCase(moviesRepository);
-
-  it("Should return a list of movies", async () => {
-    expect(
-      await movies.execute(undefined, undefined, new MoviesPresenter())
-    ).toStrictEqual([
-      {
-        id: 1,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 2,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 3,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 4,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 5,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 6,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-    ]);
+  it("Should loading when haven't movies", async () => {
+    const moviesRepository = new MoviesRepository({
+      ...repository,
+      getDiscoverMovies: () => Promise.resolve([]),
+    });
+    const usecase = new GetMoviesUseCase(moviesRepository);
+    await usecase.execute(undefined, undefined, Presenter);
+    expect(Presenter.vm.loading).toBeTruthy();
   });
-
-  it("Should return the first five films of the list", async () => {
-    const result = await movies.execute(5, undefined, new MoviesPresenter());
-    expect(result.length).toBe(5);
-    expect(result).toStrictEqual([
-      {
-        id: 1,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
+  it("Should display all movies if hasn't limit", async () => {
+    const moviesRepository = new MoviesRepository(repository);
+    const presenter = {
+      ...Presenter,
+      displayMovies() {
+        vm.movies = Movies;
+        vm.loading = false;
       },
-      {
-        id: 2,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 3,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 4,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-      {
-        id: 5,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
-        overview: "bla",
-      },
-    ]);
+    };
+    const usecase = new GetMoviesUseCase(moviesRepository);
+    await usecase.execute(undefined, undefined, presenter);
+    expect(presenter.vm.loading).toBeFalsy();
+    expect(presenter.vm.movies?.length).toBe(6);
+    expect(presenter.vm.movies).toStrictEqual(Movies);
   });
-
-  it("Should return backdrop image in the list of movies", async () => {
-    expect(await movies.execute(1, true, new MoviesPresenter())).toStrictEqual([
-      {
-        id: 1,
-        title: "Naruto",
-        poster: "https://image.tmdb.org/t/p/w440_and_h660_facebackdrop_path",
-        overview: "bla",
+  it("Should display movies based on limit", async () => {
+    const moviesRepository = new MoviesRepository(repository);
+    const presenter = {
+      ...Presenter,
+      displayMovies() {
+        vm.movies = [Movies[0]];
+        vm.loading = false;
       },
-    ]);
+    };
+    const usecase = new GetMoviesUseCase(moviesRepository);
+    await usecase.execute(1, undefined, presenter);
+    expect(presenter.vm.loading).toBeFalsy();
+    expect(presenter.vm.movies?.length).toBe(1);
+    expect(presenter.vm.movies).toStrictEqual([Movies[0]]);
   });
 });

@@ -47,3 +47,60 @@ export const Wishlist = {
   name: "myWishlist",
   items: Movies,
 };
+
+export const MovieIntegraleTransformed = {
+  id: 1,
+  title: "Naruto",
+  poster: "Image de Naruto",
+  original_language: "fr",
+  adult: true,
+  backdrop_path: "backdrop_path",
+  genre_ids: [23],
+  media_type: "media_type",
+  original_title: "original_title",
+  overview: "bla",
+  popularity: 2.4,
+  release_date: "release_date",
+  video: false,
+  vote_average: 3,
+  vote_count: 3,
+};
+
+export const MoviesTransformed = [
+  {
+    id: 1,
+    title: "Naruto",
+    poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+    overview: "bla",
+  },
+  {
+    id: 2,
+    title: "Naruto",
+    poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+    overview: "bla",
+  },
+  {
+    id: 3,
+    title: "Naruto",
+    poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+    overview: "bla",
+  },
+  {
+    id: 4,
+    title: "Naruto",
+    poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+    overview: "bla",
+  },
+  {
+    id: 5,
+    title: "Naruto",
+    poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+    overview: "bla",
+  },
+  {
+    id: 6,
+    title: "Naruto",
+    poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+    overview: "bla",
+  },
+];

@@ -1,6 +1,6 @@
-import MoviesPresenter from "adapter/presenters/MoviesPresenter";
+import { MoviesPresenter } from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
-import { Movie, MovieTransformed } from "domain/models";
+import { truncate, imagePath } from "domain/helpers";
 import { GetMovieUseCaseMethods } from "./methodes";
 
 export default class GetMovieUseCase implements GetMovieUseCaseMethods {
@@ -11,11 +11,30 @@ export default class GetMovieUseCase implements GetMovieUseCaseMethods {
     withBackDropImage: boolean | undefined = false,
     presenter: MoviesPresenter,
     movieId: number
-  ): Promise<Movie | MovieTransformed> {
-    presenter.isLoadingHandler(true);
+  ): Promise<void> {
+    presenter.displayMoviesLoading();
     const movie = await this.movieRepository.getMovieById(movieId);
-    return toTransformed
-      ? presenter.show([movie], withBackDropImage)[0]
-      : movie;
+    if (movie) {
+      const newMovie = toTransformed
+        ? [
+            {
+              id: movie.id,
+              title: movie.title,
+              poster: withBackDropImage
+                ? imagePath(movie.backdrop_path)
+                : imagePath(movie.poster_path),
+              overview: truncate(movie.overview),
+            },
+          ]
+        : [
+            {
+              ...movie,
+              poster: withBackDropImage
+                ? imagePath(movie.backdrop_path)
+                : imagePath(movie.poster_path),
+            },
+          ];
+      presenter.displayMovies(newMovie);
+    }
   }
 }
