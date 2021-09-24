@@ -5,21 +5,20 @@ import { RemoveMovieInWishlistUseCaseMethods } from "./methodes";
 export default class RemoveMovieInWishlistUseCase
   implements RemoveMovieInWishlistUseCaseMethods
 {
-  constructor(
-    private wishlistRepository: WishlistRepository,
-    private presenter: WishlistPresenter
-  ) {}
-  async execute(movieId: number) {
-    const isPresent = await this.wishlistRepository.getItemStatusInWishlist(
-      movieId
-    );
-    if (!isPresent)
-      return this.presenter.showErrorMessage("wishlist.movieNotFound");
-    const result = await this.wishlistRepository.removeMovieInWishlist();
-    if (result?.statusCode === 200)
-      return this.presenter.showSuccessMessage(
-        "wishlist.movieRemovedWithSuccess"
-      );
-    return this.presenter.showErrorMessage("wishlist.default");
+  constructor(private wishlistRepository: WishlistRepository) {}
+
+  async execute(movieId: number, presenter: WishlistPresenter) {
+    const movieIsPresentInWishlist =
+      await this.wishlistRepository.getItemStatusInWishlist(movieId);
+    if (!movieIsPresentInWishlist) {
+      presenter.displayMessage("wishlist.movieNotFound");
+    } else {
+      const result = await this.wishlistRepository.removeMovieInWishlist();
+      if (result.statusCode === 200) {
+        presenter.displayMessage("wishlist.movieHasBeenRemoved");
+      } else {
+        presenter.displayMessage("wishlist.error");
+      }
+    }
   }
 }

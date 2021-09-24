@@ -1,9 +1,10 @@
-import { Wishlist, WishlistTransformed } from "domain/models";
+import { WishlistTransformed } from "domain/models";
 import { WishlistPresenterMethods } from "./methods/wishlistPresenterMethods";
 import Presenter from "./Presenter";
 
 export class WishlistPresenterVM {
   loading = false;
+  msg?: string;
   wishlist?: WishlistTransformed;
 }
 
@@ -24,12 +25,8 @@ export default class WishlistPresenter
     this.vm.loading = false;
   }
 
-  // show(wishlist: Wishlist): WishlistTransformed {
-  //   const moviesPresenter = new MoviesPresenter();
-  //   return {
-  //     id: wishlist.id,
-  //     name: wishlist.name,
-  //     movies: moviesPresenter.displayMovies(wishlist.items),
-  //   };
-  // }
+  displayMessage(msg: string): void {
+    this.vm.msg = msg;
+    this.vm.loading = false;
+  }
 }

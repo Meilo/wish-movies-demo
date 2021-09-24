@@ -1,25 +1,12 @@
 import WishlistRepository from "adapter/repositories/WishlistRepository";
-import { WishlistTransformed } from "domain/models";
 import { wishlistRepository } from "view/api/repositories";
 import GetWishlistUseCase from "../GetWishlistUseCase";
+import {
+  WishlistPresenter,
+  vm,
+} from "adapter/presenters/fixtures/wishlistPresenter";
 
 jest.mock("view/api/repositories");
-
-const vm: {
-  loading: boolean;
-  wishlist?: WishlistTransformed;
-} = { loading: false, wishlist: undefined };
-
-const Presenter = {
-  displayWishlistLoading() {
-    vm.loading = true;
-  },
-  displayWishlist() {
-    vm.wishlist = undefined;
-    vm.loading = false;
-  },
-  vm,
-};
 
 const fixtures = {
   id: 1,
@@ -35,6 +22,7 @@ const fixtures = {
 };
 
 const repository = new WishlistRepository(wishlistRepository);
+const Presenter = WishlistPresenter;
 
 describe("GetWishlistUseCase", () => {
   const usecase = new GetWishlistUseCase(repository);

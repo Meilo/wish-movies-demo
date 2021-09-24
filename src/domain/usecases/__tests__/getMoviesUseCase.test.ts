@@ -1,26 +1,15 @@
 import MoviesRepository from "adapter/repositories/MoviesRepository";
 import { moviesRepository as repository } from "view/api/repositories";
 import { MoviesTransformed as Movies } from "view/api/fixtures";
-import { MovieTransformed } from "domain/models";
+import {
+  moviesPresenter,
+  vm,
+} from "adapter/presenters/fixtures/moviesPresenter";
 import GetMoviesUseCase from "../GetMoviesUseCase";
 
 jest.mock("view/api/repositories");
 
-const vm: {
-  loading: boolean;
-  movies: ReadonlyArray<MovieTransformed> | undefined;
-} = { loading: false, movies: undefined };
-
-const Presenter = {
-  displayMoviesLoading() {
-    vm.loading = true;
-  },
-  displayMovies() {
-    vm.movies = undefined;
-    vm.loading = false;
-  },
-  vm,
-};
+const Presenter = moviesPresenter;
 
 describe("GetMoviesUseCase", () => {
   it("Should loading when haven't movies", async () => {
@@ -58,6 +47,21 @@ describe("GetMoviesUseCase", () => {
     };
     const usecase = new GetMoviesUseCase(moviesRepository);
     await usecase.execute(1, undefined, presenter);
+    expect(presenter.vm.loading).toBeFalsy();
+    expect(presenter.vm.movies?.length).toBe(1);
+    expect(presenter.vm.movies).toStrictEqual([Movies[0]]);
+  });
+  it("Should display movies with withBackDropImage", async () => {
+    const moviesRepository = new MoviesRepository(repository);
+    const presenter = {
+      ...Presenter,
+      displayMovies() {
+        vm.movies = [Movies[0]];
+        vm.loading = false;
+      },
+    };
+    const usecase = new GetMoviesUseCase(moviesRepository);
+    await usecase.execute(1, true, presenter);
     expect(presenter.vm.loading).toBeFalsy();
     expect(presenter.vm.movies?.length).toBe(1);
     expect(presenter.vm.movies).toStrictEqual([Movies[0]]);

@@ -1,34 +1,38 @@
-import WishlistPresenter from "adapter/presenters/WishlistPresenter";
 import WishlistRepository from "adapter/repositories/WishlistRepository";
-import { wishlistReposiortyMock } from "view/api/__mocks__/repositories";
+import { wishlistRepository as repository } from "view/api/repositories";
+import {
+  WishlistPresenter,
+  vm,
+} from "adapter/presenters/fixtures/wishlistPresenter";
 import AddMovieInWishlistUseCase from "../AddMovieInWishlistUseCase";
 
-const wishlistRepository = new WishlistRepository(wishlistReposiortyMock);
+jest.mock("view/api/repositories");
+
+const Presenter = WishlistPresenter;
 
 describe("AddMovieInWishlistUseCase", () => {
-  const wishlist = new AddMovieInWishlistUseCase(wishlistRepository);
   it("Should return an error message if movie is present in wishlist", async () => {
-    expect(await wishlist.execute(1, new WishlistPresenter())).toStrictEqual({
-      message: "wishlist.movieAlreadyExist",
-      type: "error",
-    });
+    const wishlistRepository = new WishlistRepository(repository);
+    const usecase = new AddMovieInWishlistUseCase(wishlistRepository);
+    await usecase.execute(1, Presenter);
+    expect(vm.msg).toBe("wishlist.movieAlreadyExist");
+    expect(vm.loading).toBeFalsy();
   });
   it("Should return a success message if movie add to wishlist ", async () => {
-    expect(await wishlist.execute(333, new WishlistPresenter())).toStrictEqual({
-      message: "wishlist.movieAddWithSuccess",
-      type: "success",
-    });
+    const wishlistRepository = new WishlistRepository(repository);
+    const usecase = new AddMovieInWishlistUseCase(wishlistRepository);
+    await usecase.execute(3333, Presenter);
+    expect(vm.msg).toBe("wishlist.movieAddWithSuccess");
+    expect(vm.loading).toBeFalsy();
   });
-  it("Should return a error message if movie not add to wishlist", async () => {
-    const wishlistRepositoryDefault = new WishlistRepository({
-      ...wishlistReposiortyMock,
-      addMovieInWishlist: () => Promise.resolve({ statusCode: 400 }),
+  it("Should return an error message if movie not add to wishlist", async () => {
+    const wishlistRepository = new WishlistRepository({
+      ...repository,
+      addMovieInWishlist: () => Promise.resolve({ statusCode: 404 }),
     });
-    const wishlistDefault = new AddMovieInWishlistUseCase(
-      wishlistRepositoryDefault
-    );
-    expect(
-      await wishlistDefault.execute(333, new WishlistPresenter())
-    ).toStrictEqual({ message: "wishlist.default", type: "error" });
+    const usecase = new AddMovieInWishlistUseCase(wishlistRepository);
+    await usecase.execute(3333, Presenter);
+    expect(vm.msg).toBe("wishlist.error");
+    expect(vm.loading).toBeFalsy();
   });
 });

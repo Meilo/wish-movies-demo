@@ -1,27 +1,34 @@
-import { GetWishlistUseCase, AddMovieInWishlistUseCase } from "domain/usecases";
+import {
+  GetWishlistUseCase,
+  AddMovieInWishlistUseCase,
+  RemoveMovieInWishlistUseCase,
+} from "domain/usecases";
 import WishlistPresenter from "../presenters/WishlistPresenter";
 import { WishlistMethods } from "./methods";
 
-export default class WishlistController
-  extends WishlistPresenter
-  implements WishlistMethods
-{
+export default class WishlistController implements WishlistMethods {
   constructor(
     private usecases: {
       getWishlistUseCase: GetWishlistUseCase;
       addMovieInWishlistUseCase: AddMovieInWishlistUseCase;
+      removeMovieInWishlistUseCase: RemoveMovieInWishlistUseCase;
     },
     private wishlistPresenter: WishlistPresenter
-  ) {
-    super();
-  }
+  ) {}
 
-  async getWishlist() {
+  async fetchWishlist() {
     await this.usecases.getWishlistUseCase.execute(this.wishlistPresenter);
   }
 
   async addMovieInWishlist(movieId: number) {
-    return await this.usecases.addMovieInWishlistUseCase.execute(
+    await this.usecases.addMovieInWishlistUseCase.execute(
+      movieId,
+      this.wishlistPresenter
+    );
+  }
+
+  async removeMovieInWishlist(movieId: number) {
+    await this.usecases.removeMovieInWishlistUseCase.execute(
       movieId,
       this.wishlistPresenter
     );

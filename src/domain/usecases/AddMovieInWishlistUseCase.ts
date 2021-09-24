@@ -7,18 +7,19 @@ export default class AddMovieInWishlistUseCase
 {
   constructor(private wishlistRepository: WishlistRepository) {}
 
-  async execute(
-    movieId: number,
-    presenter: WishlistPresenter
-  ): Promise<string> {
-    const isPresent = await this.wishlistRepository.getItemStatusInWishlist(
-      movieId
-    );
-    if (isPresent)
-      return presenter.showErrorMessage("wishlist.movieAlreadyExist");
-    const result = await this.wishlistRepository.addMovieInWishlist();
-    if (result?.statusCode === 200)
-      return presenter.showSuccessMessage("wishlist.movieAddWithSuccess");
-    return presenter.showErrorMessage("wishlist.default");
+  async execute(movieId: number, presenter: WishlistPresenter): Promise<void> {
+    presenter.displayWishlistLoading();
+    const movieIsPresentInWishlist =
+      await this.wishlistRepository.getItemStatusInWishlist(movieId);
+    if (movieIsPresentInWishlist) {
+      presenter.displayMessage("wishlist.movieAlreadyExist");
+    } else {
+      const result = await this.wishlistRepository.addMovieInWishlist();
+      if (result.statusCode === 200) {
+        presenter.displayMessage("wishlist.movieAddWithSuccess");
+      } else {
+        presenter.displayMessage("wishlist.error");
+      }
+    }
   }
 }
