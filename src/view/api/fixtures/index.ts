@@ -104,3 +104,9 @@ export const MoviesTransformed = [
     overview: "bla",
   },
 ];
+
+export const WishlistTransformed = {
+  id: 1,
+  name: "myWishlist",
+  movies: [MoviesTransformed[0]],
+};

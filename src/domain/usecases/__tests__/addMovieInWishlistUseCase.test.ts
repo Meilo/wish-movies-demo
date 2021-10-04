@@ -1,14 +1,14 @@
 import WishlistRepository from "adapter/repositories/WishlistRepository";
 import { wishlistRepository as repository } from "view/api/repositories";
 import {
-  WishlistPresenter,
+  wishlistPresenter,
   vm,
 } from "adapter/presenters/fixtures/wishlistPresenter";
 import AddMovieInWishlistUseCase from "../AddMovieInWishlistUseCase";
 
 jest.mock("view/api/repositories");
 
-const Presenter = WishlistPresenter;
+const Presenter = wishlistPresenter;
 
 describe("AddMovieInWishlistUseCase", () => {
   it("Should return an error message if movie is present in wishlist", async () => {

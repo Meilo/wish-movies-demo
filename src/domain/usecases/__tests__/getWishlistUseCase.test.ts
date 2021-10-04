@@ -2,7 +2,7 @@ import WishlistRepository from "adapter/repositories/WishlistRepository";
 import { wishlistRepository } from "view/api/repositories";
 import GetWishlistUseCase from "../GetWishlistUseCase";
 import {
-  WishlistPresenter,
+  wishlistPresenter,
   vm,
 } from "adapter/presenters/fixtures/wishlistPresenter";
 
@@ -22,7 +22,7 @@ const fixtures = {
 };
 
 const repository = new WishlistRepository(wishlistRepository);
-const Presenter = WishlistPresenter;
+const Presenter = wishlistPresenter;
 
 describe("GetWishlistUseCase", () => {
   const usecase = new GetWishlistUseCase(repository);

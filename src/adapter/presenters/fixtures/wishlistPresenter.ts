@@ -6,12 +6,12 @@ export const vm: {
   wishlist?: WishlistTransformed;
 } = { loading: false, msg: undefined, wishlist: undefined };
 
-export const WishlistPresenter = {
+export const wishlistPresenter = {
   displayWishlistLoading() {
     vm.loading = true;
   },
-  displayWishlist() {
-    vm.wishlist = undefined;
+  displayWishlist(wishlist: WishlistTransformed) {
+    vm.wishlist = wishlist;
     vm.loading = false;
   },
   displayMessage(msg: string): void {

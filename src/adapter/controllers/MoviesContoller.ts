@@ -2,6 +2,13 @@ import { GetMoviesUseCase, GetMovieUseCase } from "domain/usecases";
 import { MoviesMethods } from "./methods";
 import { MoviesPresenter } from "../presenters/MoviesPresenter";
 
+interface FetchMoviesType {
+  limit?: number;
+  toTransformed?: boolean;
+  withBackDropImage?: boolean;
+  movieId: number | undefined;
+}
+
 export default class MoviesController implements MoviesMethods {
   constructor(
     private usecases: {
@@ -16,25 +23,18 @@ export default class MoviesController implements MoviesMethods {
     toTransformed = true,
     withBackDropImage = false,
     movieId = undefined,
-  }: {
-    limit?: number;
-    toTransformed?: boolean;
-    withBackDropImage?: boolean;
-    movieId: number | undefined;
-  }) {
-    if (movieId) {
-      await this.usecases.getMovieUseCase.execute(
-        toTransformed,
-        withBackDropImage,
-        this.moviesPresenter,
-        movieId
-      );
-    } else {
-      await this.usecases.getMoviesUseCase.execute(
-        limit,
-        false,
-        this.moviesPresenter
-      );
-    }
+  }: FetchMoviesType) {
+    return movieId
+      ? await this.usecases.getMovieUseCase.execute(
+          toTransformed,
+          withBackDropImage,
+          this.moviesPresenter,
+          movieId
+        )
+      : await this.usecases.getMoviesUseCase.execute(
+          limit,
+          false,
+          this.moviesPresenter
+        );
   }
 }
