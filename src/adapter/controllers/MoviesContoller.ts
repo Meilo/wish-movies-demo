@@ -1,6 +1,6 @@
 import { GetMoviesUseCase, GetMovieUseCase } from "domain/usecases";
 import { MoviesMethods } from "./methods";
-import { MoviesPresenter } from "../presenters/MoviesPresenter";
+import MoviesPresenter from "../presenters/MoviesPresenter";
 
 interface FetchMoviesType {
   limit?: number;

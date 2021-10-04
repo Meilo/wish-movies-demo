@@ -9,7 +9,7 @@ export class MoviesPresenterVM {
     | ReadonlyArray<MovieIntegraleTransformed>;
 }
 
-export class MoviesPresenter
+export default class MoviesPresenter
   extends Presenter<MoviesPresenterVM>
   implements MoviesPresenterMethods
 {

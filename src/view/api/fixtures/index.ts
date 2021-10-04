@@ -51,8 +51,9 @@ export const Wishlist = {
 export const MovieIntegraleTransformed = {
   id: 1,
   title: "Naruto",
-  poster: "Image de Naruto",
+  poster: "https://image.tmdb.org/t/p/w440_and_h660_facebackdrop_path",
   original_language: "fr",
+  poster_path: "Image de Naruto",
   adult: true,
   backdrop_path: "backdrop_path",
   genre_ids: [23],

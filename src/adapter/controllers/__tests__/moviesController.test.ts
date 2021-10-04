@@ -1,5 +1,5 @@
 import MoviesRepository from "adapter/repositories/MoviesRepository";
-import { moviesPresenter } from "adapter/presenters/fixtures/moviesPresenter";
+import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import { moviesRepository as repository } from "view/api/repositories";
 import { GetMoviesUseCase, GetMovieUseCase } from "domain/usecases";
 import { MoviesTransformed } from "view/api/fixtures";
@@ -8,6 +8,7 @@ import { MoviesController } from "..";
 jest.mock("view/api/repositories");
 
 const moviesRepository = new MoviesRepository(repository);
+const moviesPresenter = new MoviesPresenter();
 const controller = new MoviesController(
   {
     getMoviesUseCase: new GetMoviesUseCase(moviesRepository),

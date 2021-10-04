@@ -1,4 +1,4 @@
-import { MoviesPresenter } from "adapter/presenters/MoviesPresenter";
+import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
 import { truncate, imagePath } from "domain/helpers";
 import { GetMovieUseCaseMethods } from "./methodes";
@@ -7,8 +7,8 @@ export default class GetMovieUseCase implements GetMovieUseCaseMethods {
   constructor(private movieRepository: MoviesRepository) {}
 
   async execute(
-    toTransformed: boolean | undefined = true,
-    withBackDropImage: boolean | undefined = false,
+    toTransformed: boolean,
+    withBackDropImage: boolean,
     presenter: MoviesPresenter,
     movieId: number
   ): Promise<void> {

@@ -1,7 +1,7 @@
 import { GetMoviesUseCase, GetMovieUseCase } from "domain/usecases";
 import { MoviesController } from "adapter/controllers";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
-import { MoviesPresenter } from "adapter/presenters/MoviesPresenter";
+import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import { moviesRepository as repository } from "../api/repositories";
 
 const moviesRepository = new MoviesRepository(repository);

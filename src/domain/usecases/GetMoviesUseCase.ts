@@ -1,4 +1,4 @@
-import { MoviesPresenter } from "adapter/presenters/MoviesPresenter";
+import MoviesPresenter from "adapter/presenters/MoviesPresenter";
 import MoviesRepository from "adapter/repositories/MoviesRepository";
 import { truncate, imagePath } from "domain/helpers";
 import { Movie } from "../models";
