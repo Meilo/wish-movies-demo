@@ -1,6 +1,6 @@
 import { Movie } from "core/domain/models";
 
-export interface MoviesRepositoryType {
+interface MoviesRepositoryType {
   getDiscoverMovies(): Promise<ReadonlyArray<Movie>>;
   getMovieById(movieId: number): Promise<Movie>;
 }

@@ -19,7 +19,7 @@ const moviesController = new MoviesController(
   moviesPresenter
 );
 
-const useMovies = (movieId = undefined) => {
+const useMovies = (movieId: number | undefined = undefined) => {
   const vm = moviesPresenter.vm;
   const controller = moviesController;
   const [movies, setMovies] = useState<
