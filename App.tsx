@@ -3,7 +3,7 @@ import React from "react";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
 
-import Movies from "view/movies";
+import Movies from "./src/ui/movies";
 
 export default function App() {
   return (

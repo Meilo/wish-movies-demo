@@ -4,9 +4,8 @@
     "strict": true,
     "baseUrl": ".", // This must be specified if "paths" is.
     "paths": {
-      "domain/*": ["./src/domain/*"],
-      "adapter/*": ["./src/adapter/*"],
-      "view/*": ["./src/view/*"],
+      "core/*": ["src/core/*"],
+      "ui/*": ["src/ui/*"],
       "config/*": ["*"]
     }
   }

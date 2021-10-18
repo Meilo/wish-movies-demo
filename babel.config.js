@@ -7,9 +7,8 @@ module.exports = function (api) {
         "module-resolver",
         {
           alias: {
-            domain: "./src/domain",
-            adapter: "./src/adapter",
-            view: "./src/view",
+            core: "./src/core",
+            ui: "./src/ui",
             config: ".",
           },
         },
