@@ -7,7 +7,7 @@ import {
 } from "core/domain/usecases";
 import { wishlistRepository as repository } from "ui/api/repositories";
 import { WishlistTransformed } from "ui/api/fixtures";
-import { WishlistController } from "..";
+import { WishlistController } from "../controllers";
 
 jest.mock("ui/api/repositories");
 

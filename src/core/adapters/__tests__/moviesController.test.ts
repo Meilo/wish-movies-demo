@@ -3,7 +3,7 @@ import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
 import { moviesRepository as repository } from "ui/api/repositories";
 import { GetMoviesUseCase, GetMovieUseCase } from "core/domain/usecases";
 import { MoviesTransformed } from "ui/api/fixtures";
-import { MoviesController } from "..";
+import { MoviesController } from "../controllers";
 
 jest.mock("ui/api/repositories");
 

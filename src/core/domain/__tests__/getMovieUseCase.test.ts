@@ -5,7 +5,7 @@ import {
   MoviesTransformed,
 } from "ui/api/fixtures";
 import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
-import GetMovieUseCase from "../GetMovieUseCase";
+import GetMovieUseCase from "../usecases/GetMovieUseCase";
 
 jest.mock("ui/api/repositories");
 

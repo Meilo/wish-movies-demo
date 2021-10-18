@@ -1,6 +1,6 @@
 import WishlistRepository from "core/adapters/repositories/WishlistRepository";
 import { wishlistRepository } from "ui/api/repositories";
-import GetWishlistUseCase from "../GetWishlistUseCase";
+import GetWishlistUseCase from "../usecases/GetWishlistUseCase";
 import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
 
 jest.mock("ui/api/repositories");
