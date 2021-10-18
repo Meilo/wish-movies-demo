@@ -1,9 +1,12 @@
 import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
 import WishlistRepository from "core/adapters/repositories/WishlistRepository";
-import { AddMovieInWishlistUseCaseMethods } from "./methodes";
+
+interface AddMovieInWishlistUseCaseType {
+  execute(movieId: number, presenter: WishlistPresenter): Promise<void>;
+}
 
 export default class AddMovieInWishlistUseCase
-  implements AddMovieInWishlistUseCaseMethods
+  implements AddMovieInWishlistUseCaseType
 {
   constructor(private wishlistRepository: WishlistRepository) {}
 

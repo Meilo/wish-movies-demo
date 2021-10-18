@@ -1,7 +1,14 @@
-import { WishLiktsRepositoryMethods } from "./methods/WishlistRepositoryMethods";
+import { Wishlist } from "core/domain/models";
 
-export default class WishlistRepository implements WishLiktsRepositoryMethods {
-  constructor(private repositories: WishLiktsRepositoryMethods) {}
+interface WishLiktsRepositoryType {
+  getItemStatusInWishlist(movieId: number): Promise<boolean>;
+  getMyWishlist(): Promise<Wishlist>;
+  addMovieInWishlist(): Promise<{ statusCode: number }>;
+  removeMovieInWishlist(): Promise<{ statusCode: number }>;
+}
+
+export default class WishlistRepository implements WishLiktsRepositoryType {
+  constructor(private repositories: WishLiktsRepositoryType) {}
   getItemStatusInWishlist(movieId: number) {
     return this.repositories.getItemStatusInWishlist(movieId);
   }

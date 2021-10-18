@@ -2,9 +2,16 @@ import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
 import MoviesRepository from "core/adapters/repositories/MoviesRepository";
 import { truncate, imagePath } from "core/domain/helpers";
 import { Movie } from "../models";
-import { GetMoviesUseCaseMethods } from "./methodes";
 
-export default class GetMoviesUseCase implements GetMoviesUseCaseMethods {
+interface GetMoviesUseCaseType {
+  execute(
+    limit: number | undefined,
+    withBackDropImage: boolean | undefined,
+    presenter: MoviesPresenter
+  ): Promise<void>;
+}
+
+export default class GetMoviesUseCase implements GetMoviesUseCaseType {
   constructor(private moviesRepository: MoviesRepository) {}
 
   async execute(

@@ -1,6 +1,11 @@
 import { WishlistTransformed } from "core/domain/models";
-import { WishlistPresenterMethods } from "./methods/wishlistPresenterMethods";
 import Presenter from "./Presenter";
+
+interface WishlistPresenterType {
+  displayWishlistLoading(): void;
+  displayWishlist(wishlist: WishlistTransformed): void;
+  displayMessage(msg: string): void;
+}
 
 export class WishlistPresenterVM {
   loading = false;
@@ -10,7 +15,7 @@ export class WishlistPresenterVM {
 
 export default class WishlistPresenter
   extends Presenter<WishlistPresenterVM>
-  implements WishlistPresenterMethods
+  implements WishlistPresenterType
 {
   constructor() {
     super(new WishlistPresenterVM());

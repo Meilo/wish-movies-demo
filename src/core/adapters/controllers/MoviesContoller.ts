@@ -1,6 +1,19 @@
 import { GetMoviesUseCase, GetMovieUseCase } from "core/domain/usecases";
-import { MoviesMethods } from "./methods";
 import MoviesPresenter from "../presenters/MoviesPresenter";
+
+interface MoviesContollerType {
+  fetchMovies({
+    limit,
+    toTransformed,
+    withBackDropImage,
+    movieId,
+  }: {
+    limit: number | undefined;
+    toTransformed?: boolean;
+    withBackDropImage?: boolean;
+    movieId: number;
+  }): void;
+}
 
 interface FetchMoviesType {
   limit?: number;
@@ -9,7 +22,7 @@ interface FetchMoviesType {
   movieId: number | undefined;
 }
 
-export default class MoviesController implements MoviesMethods {
+export default class MoviesController implements MoviesContollerType {
   constructor(
     private usecases: {
       getMoviesUseCase: GetMoviesUseCase;

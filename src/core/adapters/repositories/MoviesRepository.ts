@@ -1,8 +1,12 @@
 import { Movie } from "core/domain/models";
-import { MoviesRepositoryMethods } from "./methods/MoviesRepositoryMethods";
 
-export default class MoviesRepository implements MoviesRepositoryMethods {
-  constructor(private repositories: MoviesRepositoryMethods) {}
+export interface MoviesRepositoryType {
+  getDiscoverMovies(): Promise<ReadonlyArray<Movie>>;
+  getMovieById(movieId: number): Promise<Movie>;
+}
+
+export default class MoviesRepository implements MoviesRepositoryType {
+  constructor(private repositories: MoviesRepositoryType) {}
 
   getDiscoverMovies(): Promise<ReadonlyArray<Movie>> {
     return this.repositories.getDiscoverMovies();

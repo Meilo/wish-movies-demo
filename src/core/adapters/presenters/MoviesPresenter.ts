@@ -2,8 +2,12 @@ import {
   MovieIntegraleTransformed,
   MovieTransformed,
 } from "core/domain/models";
-import { MoviesPresenterMethods } from "./methods/moviesPresenterMethods";
 import Presenter from "./Presenter";
+
+interface MoviesPresenterType {
+  displayMoviesLoading(): void;
+  displayMovies(movies: ReadonlyArray<MovieTransformed>): void;
+}
 
 export class MoviesPresenterVM {
   loading = false;
@@ -14,7 +18,7 @@ export class MoviesPresenterVM {
 
 export default class MoviesPresenter
   extends Presenter<MoviesPresenterVM>
-  implements MoviesPresenterMethods
+  implements MoviesPresenterType
 {
   constructor() {
     super(new MoviesPresenterVM());

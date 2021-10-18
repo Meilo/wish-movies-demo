@@ -4,9 +4,13 @@ import {
   RemoveMovieInWishlistUseCase,
 } from "core/domain/usecases";
 import WishlistPresenter from "../presenters/WishlistPresenter";
-import { WishlistMethods } from "./methods";
 
-export default class WishlistController implements WishlistMethods {
+interface WishlistControllerType {
+  fetchWishlist(): Promise<void>;
+  addMovieInWishlist(movieId: number): Promise<void>;
+}
+
+export default class WishlistController implements WishlistControllerType {
   constructor(
     private usecases: {
       getWishlistUseCase: GetWishlistUseCase;

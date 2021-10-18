@@ -1,9 +1,17 @@
 import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
 import MoviesRepository from "core/adapters/repositories/MoviesRepository";
 import { truncate, imagePath } from "core/domain/helpers";
-import { GetMovieUseCaseMethods } from "./methodes";
 
-export default class GetMovieUseCase implements GetMovieUseCaseMethods {
+interface GetMovieUseCaseType {
+  execute(
+    toTransformed: boolean | undefined,
+    withBackDropImage: boolean | undefined,
+    presenter: MoviesPresenter,
+    movieId: number
+  ): Promise<void>;
+}
+
+export default class GetMovieUseCase implements GetMovieUseCaseType {
   constructor(private movieRepository: MoviesRepository) {}
 
   async execute(
