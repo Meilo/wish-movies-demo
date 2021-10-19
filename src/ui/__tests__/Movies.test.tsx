@@ -1,8 +1,8 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import Movies from "../components/movies";
+import Movies from "ui/screens/movies";
 import useMovies from "ui/hooks/useMovies";
-import { MoviesTransformed } from "../api/fixtures";
+import { MoviesTransformed } from "ui/api/fixtures";
 
 jest.mock("ui/hooks/useMovies");
 

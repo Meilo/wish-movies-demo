@@ -1,5 +1,5 @@
 import AppConfig from "config/app.json";
-import Http from "../utils/http";
+import Http from "ui/services/http";
 
 const getItemStatusInWishlist = async (movieId: number): Promise<boolean> => {
   const http = new Http();

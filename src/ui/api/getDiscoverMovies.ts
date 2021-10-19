@@ -1,6 +1,6 @@
 import AppConfig from "config/app.json";
 import { Movie } from "core/domain/models/movie";
-import Http from "ui/utils/http";
+import Http from "ui/services/http";
 
 const getDiscoverMovies = async (): Promise<ReadonlyArray<Movie>> => {
   const http = new Http();

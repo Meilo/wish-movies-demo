@@ -1,6 +1,6 @@
 import AppConfig from "config/app.json";
 import { Wishlist } from "core/domain/models";
-import Http from "../utils/http";
+import Http from "ui/services/http";
 
 const getMyWishlist = async (): Promise<Wishlist> => {
   const http = new Http();

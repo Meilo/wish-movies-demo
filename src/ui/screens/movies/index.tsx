@@ -1,15 +1,15 @@
 import React, { ReactElement } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   FlatList,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 
-import { LoadingComponent, ErrorComponent } from "../base-components";
+import { LoadingComponent, ErrorComponent } from "ui/components";
+import useMovies from "ui/hooks/useMovies";
 import RowMovie from "./rowMovie";
-import useMovies from "../../hooks/useMovies";
 
 interface MoviesType {
   navigation: {
@@ -18,7 +18,7 @@ interface MoviesType {
 }
 
 const Movies = ({ navigation }: MoviesType): ReactElement => {
-  const { data, error, isLoading } = useMovies({ limit: 15 });
+  const { data, error, isLoading, retry } = useMovies({ limit: 15 });
 
   if (error) return <ErrorComponent />;
   if (isLoading) return <LoadingComponent />;
@@ -26,6 +26,9 @@ const Movies = ({ navigation }: MoviesType): ReactElement => {
   return (
     <View testID="movies">
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={() => retry()} />
+        }
         style={styles.flatlist}
         data={data}
         keyExtractor={(movie) => String(movie.id)}

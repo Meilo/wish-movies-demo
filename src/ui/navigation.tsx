@@ -3,9 +3,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Movies from "./components/movies";
-import Wishlist from "./components/wishlist";
-import MovieDetails from "./components/movies/movieDetails";
+import Movies from "ui/screens/movies";
+import Wishlist from "ui/screens/wishlist";
+import MovieDetails from "ui/screens/movies/movieDetails";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

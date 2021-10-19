@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import useMovies from "ui/hooks/useMovies";
 
-import { LoadingComponent, ErrorComponent } from "../base-components";
+import { LoadingComponent, ErrorComponent } from "ui/components";
 
 const MovieDetails = ({
   route,
@@ -31,6 +31,7 @@ const MovieDetails = ({
         source={{ uri: data[0].poster }}
       >
         <View style={styles.card}>
+          <Text style={styles.title}>{data[0].title}</Text>
           <Text style={styles.text}>{data[0].overview}</Text>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.center}>Add to wishlist</Text>
@@ -52,6 +53,9 @@ const styles = StyleSheet.create({
     height: 250,
     padding: 10,
     backgroundColor: "#FFF",
+  },
+  title: {
+    fontSize: 20,
   },
   text: {
     color: "#999",
