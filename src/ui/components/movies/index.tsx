@@ -1,38 +1,47 @@
 import React, { ReactElement } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
+import { LoadingComponent, ErrorComponent } from "../base-components";
 import RowMovie from "./rowMovie";
 import useMovies from "../../hooks/useMovies";
 
-const Movies = (): ReactElement => {
+interface MoviesType {
+  navigation: {
+    navigate: (root: string, params: { id: number; title: string }) => void;
+  };
+}
+
+const Movies = ({ navigation }: MoviesType): ReactElement => {
   const { data, error, isLoading } = useMovies({ limit: 15 });
 
-  if (error)
-    return (
-      <View style={styles.container}>
-        <Text>An error detected</Text>
-      </View>
-    );
+  if (error) return <ErrorComponent />;
+  if (isLoading) return <LoadingComponent />;
 
-  if (isLoading)
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-
-  return data ? (
+  return (
     <View testID="movies">
       <FlatList
         style={styles.flatlist}
         data={data}
         keyExtractor={(movie) => String(movie.id)}
-        renderItem={({ item }) => <RowMovie movie={item} />}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("MovieDetails", {
+                id: item.id,
+                title: item.title,
+              })
+            }
+          >
+            <RowMovie movie={item} />
+          </TouchableOpacity>
+        )}
       />
-    </View>
-  ) : (
-    <View style={styles.container}>
-      <Text>Movies not found</Text>
     </View>
   );
 };

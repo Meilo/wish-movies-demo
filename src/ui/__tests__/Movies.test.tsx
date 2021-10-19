@@ -13,22 +13,14 @@ const MoviesProps = {
 };
 
 describe("Movies", () => {
+  const navigate = () => null;
   it("Should display loading if isLoading", () => {
     (useMovies as jest.Mock).mockReturnValue({
       ...MoviesProps,
       isLoading: true,
     });
-    const { getByText } = render(<Movies />);
+    const { getByText } = render(<Movies navigation={{ navigate }} />);
     expect(getByText("Loading...")).toBeTruthy();
-  });
-
-  it("Should display loading if data is undefined", () => {
-    (useMovies as jest.Mock).mockReturnValue({
-      ...MoviesProps,
-      isLoading: false,
-    });
-    const { getByText } = render(<Movies />);
-    expect(getByText("Movies not found")).toBeTruthy();
   });
 
   it("Should display error", () => {
@@ -38,7 +30,7 @@ describe("Movies", () => {
       data: [],
       error: "Error",
     });
-    const { getByText } = render(<Movies />);
+    const { getByText } = render(<Movies navigation={{ navigate }} />);
     expect(getByText("An error detected")).toBeTruthy();
   });
 
@@ -48,7 +40,7 @@ describe("Movies", () => {
       isLoading: false,
       data: MoviesTransformed,
     });
-    const { getByTestId } = render(<Movies />);
+    const { getByTestId } = render(<Movies navigation={{ navigate }} />);
     expect(getByTestId("movies")).toBeTruthy();
   });
 });

@@ -22,23 +22,24 @@ const moviesController = new MoviesController(
 interface useMoviesType {
   movieId?: number;
   limit?: number;
+  toTransformed?: boolean;
 }
 
-const useMovies = ({ movieId, limit = 5 }: useMoviesType) => {
+const useMovies = ({ movieId, limit = 5, toTransformed }: useMoviesType) => {
   const vm = moviesPresenter.vm;
   const controller = moviesController;
   const [movies, setMovies] = useState<
     | ReadonlyArray<MovieTransformed>
     | ReadonlyArray<MovieIntegraleTransformed>
-    | undefined
-  >(vm.movies);
+    | []
+  >([]);
   const [isLoading, setIsLoading] = useState<boolean>(vm.loading);
   const [error, setError] = useState(null);
 
   const getMovies = async () => {
     try {
-      await controller.fetchMovies({ limit, movieId });
-      setMovies(vm.movies);
+      await controller.fetchMovies({ limit, movieId, toTransformed });
+      if (vm.movies) setMovies(vm.movies);
       setIsLoading(vm.loading);
     } catch (err: any) {
       setError(err);
