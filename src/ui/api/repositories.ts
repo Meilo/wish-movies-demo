@@ -1,7 +1,7 @@
-import getDiscoverMovies from "config/src/ui/api/getDiscoverMovies";
-import getItemStatusInWishlist from "config/src/ui/api/getItemStatusInWishlist";
-import getMovieById from "config/src/ui/api/getMovieById";
-import getMyWishlist from "config/src/ui/api/getMyWishlist";
+import getDiscoverMovies from "ui/api/getDiscoverMovies";
+import getItemStatusInWishlist from "ui/api/getItemStatusInWishlist";
+import getMovieById from "ui/api/getMovieById";
+import getMyWishlist from "ui/api/getMyWishlist";
 
 export const wishlistRepository = {
   getMyWishlist,

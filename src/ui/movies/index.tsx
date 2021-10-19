@@ -7,13 +7,12 @@ import useMovies from "../hooks/useMovies";
 const Movies = (): ReactElement => {
   const { data, error, isLoading } = useMovies();
 
-  if (error) {
+  if (error)
     return (
       <View style={styles.container}>
         <Text>An error detected</Text>
       </View>
     );
-  }
 
   if (isLoading)
     return (
@@ -22,14 +21,7 @@ const Movies = (): ReactElement => {
       </View>
     );
 
-  if (!data)
-    return (
-      <View style={styles.container}>
-        <Text>Movies not found</Text>
-      </View>
-    );
-
-  return (
+  return data ? (
     <View testID="movies">
       <Image style={styles.thumbnail} source={{ uri: data[0].poster }} />
       <FlatList
@@ -37,6 +29,10 @@ const Movies = (): ReactElement => {
         keyExtractor={(movie) => String(movie.id)}
         renderItem={({ item }) => <RowMovie movie={item} />}
       />
+    </View>
+  ) : (
+    <View style={styles.container}>
+      <Text>Movies not found</Text>
     </View>
   );
 };

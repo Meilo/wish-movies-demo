@@ -30,16 +30,14 @@ const useMovies = (movieId: number | undefined = undefined) => {
   const [isLoading, setIsLoading] = useState<boolean>(vm.loading);
   const [error, setError] = useState(null);
 
-  const getMovies = () => {
-    controller
-      .fetchMovies({ limit: 5, movieId })
-      .then(() => {
-        setMovies(vm.movies);
-        setIsLoading(vm.loading);
-      })
-      .catch((err: any) => {
-        setError(err);
-      });
+  const getMovies = async () => {
+    try {
+      await controller.fetchMovies({ limit: 5, movieId });
+      setMovies(vm.movies);
+      setIsLoading(vm.loading);
+    } catch (err: any) {
+      setError(err);
+    }
   };
 
   useEffect(() => {
