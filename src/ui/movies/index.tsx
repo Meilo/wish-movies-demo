@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 
 import RowMovie from "./rowMovie";
 import useMovies from "../hooks/useMovies";
 
 const Movies = (): ReactElement => {
-  const { data, error, isLoading } = useMovies();
+  const { data, error, isLoading } = useMovies({ limit: 15 });
 
   if (error)
     return (
@@ -23,8 +23,8 @@ const Movies = (): ReactElement => {
 
   return data ? (
     <View testID="movies">
-      <Image style={styles.thumbnail} source={{ uri: data[0].poster }} />
       <FlatList
+        style={styles.flatlist}
         data={data}
         keyExtractor={(movie) => String(movie.id)}
         renderItem={({ item }) => <RowMovie movie={item} />}
@@ -38,8 +38,7 @@ const Movies = (): ReactElement => {
 };
 
 const styles = StyleSheet.create({
-  thumbnail: { width: "100%", height: "50%" },
-  image: { width: 80, height: 100 },
+  flatlist: { height: "100%" },
   container: {
     flex: 1,
     alignItems: "center",

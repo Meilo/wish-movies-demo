@@ -5,7 +5,9 @@ jest.mock("ui/api/repositories");
 
 describe("useMovies", () => {
   it("Should return one movie", async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useMovies(1));
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useMovies({ movieId: 1 })
+    );
     act(() => {
       result.current.retry();
     });
@@ -26,7 +28,9 @@ describe("useMovies", () => {
   });
 
   it("Should return all movies", async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useMovies());
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useMovies({ limit: 6 })
+    );
     act(() => {
       result.current.retry();
     });
@@ -60,6 +64,12 @@ describe("useMovies", () => {
       },
       {
         id: 5,
+        overview: "bla",
+        poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
+        title: "Naruto",
+      },
+      {
+        id: 6,
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",

@@ -19,7 +19,12 @@ const moviesController = new MoviesController(
   moviesPresenter
 );
 
-const useMovies = (movieId: number | undefined = undefined) => {
+interface useMoviesType {
+  movieId?: number;
+  limit?: number;
+}
+
+const useMovies = ({ movieId, limit = 5 }: useMoviesType) => {
   const vm = moviesPresenter.vm;
   const controller = moviesController;
   const [movies, setMovies] = useState<
@@ -32,7 +37,7 @@ const useMovies = (movieId: number | undefined = undefined) => {
 
   const getMovies = async () => {
     try {
-      await controller.fetchMovies({ limit: 5, movieId });
+      await controller.fetchMovies({ limit, movieId });
       setMovies(vm.movies);
       setIsLoading(vm.loading);
     } catch (err: any) {
