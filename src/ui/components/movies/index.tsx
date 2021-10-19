@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 
 import RowMovie from "./rowMovie";
-import useMovies from "../hooks/useMovies";
+import useMovies from "../../hooks/useMovies";
 
 const Movies = (): ReactElement => {
   const { data, error, isLoading } = useMovies({ limit: 15 });

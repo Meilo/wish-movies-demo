@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import Movies from "../movies";
+import Movies from "../components/movies";
 import useMovies from "ui/hooks/useMovies";
 import { MoviesTransformed } from "../api/fixtures";
 

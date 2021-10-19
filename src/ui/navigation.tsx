@@ -3,8 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Movies from "./movies";
-import Wishlist from "./wishlist";
+import Movies from "./components/movies";
+import Wishlist from "./components/wishlist";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
