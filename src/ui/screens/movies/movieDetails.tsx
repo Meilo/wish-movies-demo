@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import useMovies from "ui/hooks/useMovies";
 
@@ -30,13 +31,13 @@ const MovieDetails = ({
         style={styles.image}
         source={{ uri: data[0].poster }}
       >
-        <View style={styles.card}>
+        <ScrollView style={styles.card}>
           <Text style={styles.title}>{data[0].title}</Text>
           <Text style={styles.text}>{data[0].overview}</Text>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.center}>Add to wishlist</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       </ImageBackground>
     </View>
   ) : (

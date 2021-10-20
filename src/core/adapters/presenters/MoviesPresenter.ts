@@ -10,7 +10,7 @@ interface MoviesPresenterType {
 }
 
 export class MoviesPresenterVM {
-  loading = false;
+  loading = true;
   movies?:
     | ReadonlyArray<MovieTransformed>
     | ReadonlyArray<MovieIntegraleTransformed>;
