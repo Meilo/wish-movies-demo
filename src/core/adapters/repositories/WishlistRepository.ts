@@ -1,14 +1,7 @@
-import { Wishlist } from "core/domain/models";
+import { WishlistRepositories } from "core/adapters/types";
 
-interface WishLiktsRepositoryType {
-  getItemStatusInWishlist(movieId: number): Promise<boolean>;
-  getMyWishlist(): Promise<Wishlist>;
-  addMovieInWishlist(): Promise<{ statusCode: number }>;
-  removeMovieInWishlist(): Promise<{ statusCode: number }>;
-}
-
-export default class WishlistRepository implements WishLiktsRepositoryType {
-  constructor(private repositories: WishLiktsRepositoryType) {}
+export default class WishlistRepository {
+  constructor(private repositories: WishlistRepositories) {}
   getItemStatusInWishlist(movieId: number) {
     return this.repositories.getItemStatusInWishlist(movieId);
   }

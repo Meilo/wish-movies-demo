@@ -1,18 +1,13 @@
-import { Movie } from "core/domain/models";
+import { MoviesRepositories } from "core/adapters/types";
 
-interface MoviesRepositoryType {
-  getDiscoverMovies(): Promise<ReadonlyArray<Movie>>;
-  getMovieById(movieId: number): Promise<Movie>;
-}
+export default class MoviesRepository {
+  constructor(private repositories: MoviesRepositories) {}
 
-export default class MoviesRepository implements MoviesRepositoryType {
-  constructor(private repositories: MoviesRepositoryType) {}
-
-  getDiscoverMovies(): Promise<ReadonlyArray<Movie>> {
+  getDiscoverMovies() {
     return this.repositories.getDiscoverMovies();
   }
 
-  getMovieById(movieId: number): Promise<Movie> {
+  getMovieById(movieId: number) {
     return this.repositories.getMovieById(movieId);
   }
 }

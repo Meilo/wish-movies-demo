@@ -11,11 +11,11 @@ import { LoadingComponent, ErrorComponent } from "ui/components";
 import useMovies from "ui/hooks/useMovies";
 import RowMovie from "./rowMovie";
 
-interface MoviesType {
+type MoviesType = {
   navigation: {
     navigate: (root: string, params: { id: number; title: string }) => void;
   };
-}
+};
 
 const Movies = ({ navigation }: MoviesType): ReactElement => {
   const { data, error, isLoading, retry } = useMovies({ limit: 15 });

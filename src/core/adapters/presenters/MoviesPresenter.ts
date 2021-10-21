@@ -4,7 +4,7 @@ import {
 } from "core/domain/models";
 import Presenter from "./Presenter";
 
-interface MoviesPresenterType {
+interface MoviesPresenterInterface {
   displayMoviesLoading(): void;
   displayMovies(movies: ReadonlyArray<MovieTransformed>): void;
 }
@@ -18,7 +18,7 @@ export class MoviesPresenterVM {
 
 export default class MoviesPresenter
   extends Presenter<MoviesPresenterVM>
-  implements MoviesPresenterType
+  implements MoviesPresenterInterface
 {
   constructor() {
     super(new MoviesPresenterVM());

@@ -5,15 +5,15 @@ import {
 } from "core/domain/models";
 import moviesControllerHandler from "ui/services/moviesControllerHandler";
 
-interface useMoviesType {
+type Props = {
   movieId?: number;
   limit?: number;
   toTransformed?: boolean;
-}
+};
 
-const useMovies = ({ movieId, limit = 5, toTransformed }: useMoviesType) => {
+const useMovies = ({ movieId, limit = 5, toTransformed }: Props) => {
   const vm = moviesControllerHandler.vm;
-  const controller = moviesControllerHandler.controller;
+  const moviesController = moviesControllerHandler.controller;
   const [movies, setMovies] = useState<
     | ReadonlyArray<MovieTransformed>
     | ReadonlyArray<MovieIntegraleTransformed>
@@ -24,7 +24,7 @@ const useMovies = ({ movieId, limit = 5, toTransformed }: useMoviesType) => {
 
   const getMovies = async () => {
     try {
-      await controller.fetchMovies({ limit, movieId, toTransformed });
+      await moviesController.retreive({ limit, movieId, toTransformed });
       if (vm.movies) {
         setMovies(vm.movies);
         setIsLoading(vm.loading);

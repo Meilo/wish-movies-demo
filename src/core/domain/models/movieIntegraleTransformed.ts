@@ -1,4 +1,4 @@
-export interface MovieIntegraleTransformed {
+export type MovieIntegraleTransformed = {
   adult: boolean;
   poster: string;
   genre_ids: ReadonlyArray<number>;
@@ -14,4 +14,4 @@ export interface MovieIntegraleTransformed {
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
+};

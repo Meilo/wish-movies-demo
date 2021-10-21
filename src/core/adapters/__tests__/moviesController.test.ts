@@ -19,19 +19,19 @@ const controller = new MoviesController(
 
 describe("MoviesContoller", () => {
   it("Should fetch one movie selected by movieId", async () => {
-    await controller.fetchMovies({ limit: 5, movieId: 1 });
+    await controller.retreive({ limit: 5, movieId: 1 });
     expect(moviesPresenter.vm.movies).toStrictEqual([MoviesTransformed[0]]);
   });
   it("Should fetch one movie based on limit", async () => {
-    await controller.fetchMovies({ limit: 1, movieId: undefined });
+    await controller.retreive({ limit: 1, movieId: undefined });
     expect(moviesPresenter.vm.movies).toStrictEqual([MoviesTransformed[0]]);
   });
   it("Should fetch all movies", async () => {
-    await controller.fetchMovies({ movieId: undefined });
+    await controller.retreive({ movieId: undefined });
     expect(moviesPresenter.vm.movies?.length).toStrictEqual(6);
   });
   it("Should fetch a movie by id with withBackDropImage", async () => {
-    await controller.fetchMovies({
+    await controller.retreive({
       movieId: 1,
       withBackDropImage: true,
     });
@@ -43,7 +43,7 @@ describe("MoviesContoller", () => {
     ]);
   });
   it("Should fetch one movie based on limit with withBackDropImage", async () => {
-    await controller.fetchMovies({
+    await controller.retreive({
       limit: 1,
       movieId: undefined,
       withBackDropImage: true,

@@ -1,28 +1,9 @@
 import { GetMoviesUseCase, GetMovieUseCase } from "core/domain/usecases";
-import MoviesPresenter from "../presenters/MoviesPresenter";
+import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
+import { MoviesProps } from "core/adapters/types";
+import Controller from "./Controller";
 
-interface MoviesContollerType {
-  fetchMovies({
-    limit,
-    toTransformed,
-    withBackDropImage,
-    movieId,
-  }: {
-    limit: number | undefined;
-    toTransformed?: boolean;
-    withBackDropImage?: boolean;
-    movieId: number;
-  }): void;
-}
-
-interface FetchMoviesType {
-  limit?: number;
-  toTransformed?: boolean;
-  withBackDropImage?: boolean;
-  movieId: number | undefined;
-}
-
-export default class MoviesController implements MoviesContollerType {
+export default class MoviesController implements Controller {
   constructor(
     private usecases: {
       getMoviesUseCase: GetMoviesUseCase;
@@ -31,12 +12,12 @@ export default class MoviesController implements MoviesContollerType {
     private moviesPresenter: MoviesPresenter
   ) {}
 
-  async fetchMovies({
+  async retreive({
     limit,
     toTransformed = true,
     withBackDropImage = false,
     movieId = undefined,
-  }: FetchMoviesType) {
+  }: MoviesProps) {
     if (movieId) {
       await this.usecases.getMovieUseCase.execute(
         toTransformed,

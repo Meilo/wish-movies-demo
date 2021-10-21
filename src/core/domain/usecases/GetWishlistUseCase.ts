@@ -2,11 +2,11 @@ import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
 import WishlistRepository from "core/adapters/repositories/WishlistRepository";
 import { imagePath } from "core/domain/helpers";
 
-interface GetWishlistUseCaseType {
+interface GetWishlistUseCaseInterface {
   execute(presenter: WishlistPresenter): Promise<void>;
 }
 
-export default class GetWishlistUseCase implements GetWishlistUseCaseType {
+export default class GetWishlistUseCase implements GetWishlistUseCaseInterface {
   constructor(private wishlistRepository: WishlistRepository) {}
 
   async execute(presenter: WishlistPresenter) {

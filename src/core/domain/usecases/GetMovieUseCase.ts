@@ -2,7 +2,7 @@ import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
 import MoviesRepository from "core/adapters/repositories/MoviesRepository";
 import { truncate, imagePath } from "core/domain/helpers";
 
-interface GetMovieUseCaseType {
+interface GetMovieUseCaseInterface {
   execute(
     toTransformed: boolean | undefined,
     withBackDropImage: boolean | undefined,
@@ -11,7 +11,7 @@ interface GetMovieUseCaseType {
   ): Promise<void>;
 }
 
-export default class GetMovieUseCase implements GetMovieUseCaseType {
+export default class GetMovieUseCase implements GetMovieUseCaseInterface {
   constructor(private movieRepository: MoviesRepository) {}
 
   async execute(

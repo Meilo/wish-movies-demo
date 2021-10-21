@@ -1,7 +1,7 @@
-import { Movie } from ".";
+import { Movie } from "./movie";
 
-export interface Wishlist {
+export type Wishlist = {
   id: number;
   name: string;
   items: ReadonlyArray<Movie>;
-}
+};

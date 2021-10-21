@@ -1,7 +1,7 @@
 import { WishlistTransformed } from "core/domain/models";
 import Presenter from "./Presenter";
 
-interface WishlistPresenterType {
+interface WishlistPresenterInrterface {
   displayWishlistLoading(): void;
   displayWishlist(wishlist: WishlistTransformed): void;
   displayMessage(msg: string): void;
@@ -15,7 +15,7 @@ export class WishlistPresenterVM {
 
 export default class WishlistPresenter
   extends Presenter<WishlistPresenterVM>
-  implements WishlistPresenterType
+  implements WishlistPresenterInrterface
 {
   constructor() {
     super(new WishlistPresenterVM());
