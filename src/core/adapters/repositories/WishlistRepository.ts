@@ -8,8 +8,8 @@ export default class WishlistRepository {
   getMyWishlist() {
     return this.repositories.getMyWishlist();
   }
-  addMovieInWishlist() {
-    return this.repositories.addMovieInWishlist();
+  addMovieInWishlist(movieId: number) {
+    return this.repositories.addMovieInWishlist(movieId);
   }
   removeMovieInWishlist() {
     return this.repositories.removeMovieInWishlist();

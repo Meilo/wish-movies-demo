@@ -1,0 +1,29 @@
+import { useState } from "react";
+import wishlistControllerHandler from "ui/services/handleControllers/wishlistControllerHandler";
+
+const useWishlist = (movieId: number) => {
+  const [msg, setMsg] = useState<string | null>(null);
+  const [error, setError] = useState<any>(null);
+  const vm = wishlistControllerHandler.vm;
+  const [isLoading, setIsLoading] = useState<boolean>(vm.loading);
+  const wishlistController = wishlistControllerHandler.controller;
+  const addMovie = async () => {
+    try {
+      await wishlistController.add(movieId);
+      if (vm.msg) {
+        setMsg(vm.msg);
+        setIsLoading(vm.loading);
+      }
+    } catch (err) {
+      setError(err);
+    }
+  };
+  return {
+    addMovie,
+    msg,
+    error,
+    isLoading,
+  };
+};
+
+export default useWishlist;

@@ -10,7 +10,7 @@ export type MoviesProps = {
 export type WishlistRepositories = {
   getItemStatusInWishlist(movieId: number): Promise<boolean>;
   getMyWishlist(): Promise<Wishlist>;
-  addMovieInWishlist(): Promise<{ statusCode: number }>;
+  addMovieInWishlist(movieId: number): Promise<{ statusCode: number }>;
   removeMovieInWishlist(): Promise<{ statusCode: number }>;
 };
 

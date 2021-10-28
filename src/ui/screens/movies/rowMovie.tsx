@@ -1,19 +1,23 @@
 import React, { ReactElement } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { MovieTransformed } from "core/domain/models";
+import useWishlist from "ui/hooks/useWishlist";
 
-const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => (
-  <View style={styles.item}>
-    <Image style={styles.image} source={{ uri: movie.poster }} />
-    <View style={styles.infos}>
-      <Text style={styles.title}>{movie.title}</Text>
-      <Text style={styles.overview}>{movie.overview}</Text>
+const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
+  const { addMovie } = useWishlist(movie.id);
+  return (
+    <View style={styles.item}>
+      <Image style={styles.image} source={{ uri: movie.poster }} />
+      <View style={styles.infos}>
+        <Text style={styles.title}>{movie.title}</Text>
+        <Text style={styles.overview}>{movie.overview}</Text>
+      </View>
+      <TouchableOpacity style={styles.button} onPress={() => addMovie()}>
+        <Text style={styles.center}>Add to wishlist</Text>
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity style={styles.button}>
-      <Text style={styles.center}>Add to wishlist</Text>
-    </TouchableOpacity>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   image: { width: 80, height: 100 },

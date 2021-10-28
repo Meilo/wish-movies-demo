@@ -17,8 +17,8 @@ export default class AddMovieInWishlistUseCase
     if (movieIsPresentInWishlist) {
       presenter.displayMessage("wishlist.movieAlreadyExist");
     } else {
-      const result = await this.wishlistRepository.addMovieInWishlist();
-      if (result.statusCode === 200) {
+      const result = await this.wishlistRepository.addMovieInWishlist(movieId);
+      if (result.statusCode === 201) {
         presenter.displayMessage("wishlist.movieAddWithSuccess");
       } else {
         presenter.displayMessage("wishlist.error");
