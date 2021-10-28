@@ -1,7 +1,7 @@
 import WishlistRepository from "core/adapters/repositories/WishlistRepository";
 import { wishlistRepository as repository } from "ui/api/repositories";
 import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
-import AddMovieInWishlistUseCase from "../usecases/AddMovieInWishlistUseCase";
+import AddMovieInWishlistUseCase from "../AddMovieInWishlistUseCase";
 
 jest.mock("ui/api/repositories");
 

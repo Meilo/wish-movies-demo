@@ -6,14 +6,12 @@ import Presenter from "./Presenter";
 
 interface MoviesPresenterInterface {
   displayMoviesLoading(): void;
-  displayMovies(movies: ReadonlyArray<MovieTransformed>): void;
+  displayMovies(movies: MovieTransformed[]): void;
 }
 
 export class MoviesPresenterVM {
   loading = true;
-  movies?:
-    | ReadonlyArray<MovieTransformed>
-    | ReadonlyArray<MovieIntegraleTransformed>;
+  movies?: MovieTransformed[] | MovieIntegraleTransformed[];
 }
 
 export default class MoviesPresenter
@@ -29,9 +27,7 @@ export default class MoviesPresenter
   }
 
   displayMovies(
-    movies:
-      | ReadonlyArray<MovieTransformed>
-      | ReadonlyArray<MovieIntegraleTransformed>
+    movies: MovieTransformed[] | MovieIntegraleTransformed[]
   ): void {
     this.vm.movies = movies;
     this.vm.loading = false;

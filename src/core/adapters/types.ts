@@ -15,6 +15,6 @@ export type WishlistRepositories = {
 };
 
 export type MoviesRepositories = {
-  getDiscoverMovies(): Promise<ReadonlyArray<Movie>>;
+  getDiscoverMovies(): Promise<Movie[]>;
   getMovieById(movieId: number): Promise<Movie>;
 };

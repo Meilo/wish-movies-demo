@@ -3,7 +3,7 @@ import {
   MovieIntegraleTransformed,
   MovieTransformed,
 } from "core/domain/models";
-import moviesControllerHandler from "ui/services/moviesControllerHandler";
+import moviesControllerHandler from "ui/services/handleControllers/moviesControllerHandler";
 
 type Props = {
   movieId?: number;
@@ -15,9 +15,7 @@ const useMovies = ({ movieId, limit = 5, toTransformed }: Props) => {
   const vm = moviesControllerHandler.vm;
   const moviesController = moviesControllerHandler.controller;
   const [movies, setMovies] = useState<
-    | ReadonlyArray<MovieTransformed>
-    | ReadonlyArray<MovieIntegraleTransformed>
-    | []
+    MovieTransformed[] | MovieIntegraleTransformed[] | []
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(vm.loading);
   const [error, setError] = useState(null);

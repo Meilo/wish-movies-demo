@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react-hooks";
-import useMovies from "../hooks/useMovies";
+import useMovies from "../useMovies";
 
 jest.mock("ui/api/repositories");
 
