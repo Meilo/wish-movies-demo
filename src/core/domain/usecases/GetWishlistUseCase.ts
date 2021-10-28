@@ -1,5 +1,5 @@
 import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
-import WishlistRepository from "core/adapters/repositories/WishlistRepository";
+import { WishlistRepositories } from "core/adapters/types";
 import { imagePath } from "core/domain/helpers";
 
 interface GetWishlistUseCaseInterface {
@@ -7,7 +7,7 @@ interface GetWishlistUseCaseInterface {
 }
 
 export default class GetWishlistUseCase implements GetWishlistUseCaseInterface {
-  constructor(private wishlistRepository: WishlistRepository) {}
+  constructor(private wishlistRepository: WishlistRepositories) {}
 
   async execute(presenter: WishlistPresenter) {
     presenter.displayWishlistLoading();

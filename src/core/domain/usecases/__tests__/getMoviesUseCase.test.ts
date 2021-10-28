@@ -1,16 +1,15 @@
-import MoviesRepository from "core/adapters/repositories/MoviesRepository";
 import { moviesRepository as repository } from "ui/api/repositories";
 import { MoviesTransformed as Movies } from "ui/api/fixtures";
-import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
+import { MoviesBuilder } from "core/domain/builders/MoviesBuilder";
 import GetMoviesUseCase from "../GetMoviesUseCase";
 
 jest.mock("ui/api/repositories");
 
-const Presenter = new MoviesPresenter();
+const Presenter = MoviesBuilder.presenter;
 
 describe("GetMoviesUseCase", () => {
   it("Should loading when haven't movies", async () => {
-    const moviesRepository = new MoviesRepository({
+    const moviesRepository = MoviesBuilder.repositories({
       ...repository,
       getDiscoverMovies: () => Promise.resolve([]),
     });
@@ -19,7 +18,7 @@ describe("GetMoviesUseCase", () => {
     expect(Presenter.vm.loading).toBeTruthy();
   });
   it("Should display all movies if hasn't limit", async () => {
-    const moviesRepository = new MoviesRepository(repository);
+    const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMoviesUseCase(moviesRepository);
     await usecase.execute(undefined, undefined, Presenter);
     expect(Presenter.vm.loading).toBeFalsy();
@@ -27,7 +26,7 @@ describe("GetMoviesUseCase", () => {
     expect(Presenter.vm.movies).toStrictEqual(Movies);
   });
   it("Should display movies based on limit", async () => {
-    const moviesRepository = new MoviesRepository(repository);
+    const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMoviesUseCase(moviesRepository);
     await usecase.execute(1, undefined, Presenter);
     expect(Presenter.vm.loading).toBeFalsy();
@@ -35,7 +34,7 @@ describe("GetMoviesUseCase", () => {
     expect(Presenter.vm.movies).toStrictEqual([Movies[0]]);
   });
   it("Should display movies with withBackDropImage", async () => {
-    const moviesRepository = new MoviesRepository(repository);
+    const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMoviesUseCase(moviesRepository);
     await usecase.execute(1, true, Presenter);
     expect(Presenter.vm.loading).toBeFalsy();

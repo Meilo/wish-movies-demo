@@ -1,5 +1,5 @@
 import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
-import WishlistRepository from "core/adapters/repositories/WishlistRepository";
+import { WishlistRepositories } from "core/adapters/types";
 
 interface RemoveMovieInWishlistUseCaseInterface {
   execute(movieId: number, presenter: WishlistPresenter): Promise<void>;
@@ -8,7 +8,7 @@ interface RemoveMovieInWishlistUseCaseInterface {
 export default class RemoveMovieInWishlistUseCase
   implements RemoveMovieInWishlistUseCaseInterface
 {
-  constructor(private wishlistRepository: WishlistRepository) {}
+  constructor(private wishlistRepository: WishlistRepositories) {}
 
   async execute(movieId: number, presenter: WishlistPresenter) {
     const movieIsPresentInWishlist =

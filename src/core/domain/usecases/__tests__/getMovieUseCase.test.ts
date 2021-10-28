@@ -5,15 +5,16 @@ import {
   MoviesTransformed,
 } from "ui/api/fixtures";
 import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
+import { MoviesBuilder } from "core/domain/builders/MoviesBuilder";
 import GetMovieUseCase from "../GetMovieUseCase";
 
 jest.mock("ui/api/repositories");
 
-const Presenter = new MoviesPresenter();
+const Presenter = MoviesBuilder.presenter;
 
 describe("GetMoviesUseCase", () => {
   it("Should loading when haven't movie", async () => {
-    const moviesRepository = new MoviesRepository({
+    const moviesRepository = MoviesBuilder.repositories({
       ...repository,
       /* @ts-ignore */
       getMovieById: () => Promise.resolve(null),
@@ -23,7 +24,7 @@ describe("GetMoviesUseCase", () => {
     expect(Presenter.vm.loading).toBeTruthy();
   });
   it("Should return a movie", async () => {
-    const moviesRepository = new MoviesRepository(repository);
+    const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMovieUseCase(moviesRepository);
     await usecase.execute(false, true, Presenter, 1);
     expect(Presenter.vm.movies).toStrictEqual([MovieAllInfoTransformed]);
@@ -31,7 +32,7 @@ describe("GetMoviesUseCase", () => {
   });
 
   it("Should return a movie transformed with backdrop path image", async () => {
-    const moviesRepository = new MoviesRepository(repository);
+    const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMovieUseCase(moviesRepository);
     await usecase.execute(true, true, Presenter, 1);
     expect(Presenter.vm.movies).toStrictEqual([
@@ -44,7 +45,7 @@ describe("GetMoviesUseCase", () => {
   });
 
   it("Should return a movie transformed with poster path image", async () => {
-    const moviesRepository = new MoviesRepository(repository);
+    const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMovieUseCase(moviesRepository);
     await usecase.execute(true, false, Presenter, 1);
     expect(Presenter.vm.movies).toStrictEqual([MoviesTransformed[0]]);

@@ -1,7 +1,6 @@
-import WishlistRepository from "core/adapters/repositories/WishlistRepository";
 import { wishlistRepository } from "ui/api/repositories";
+import { WishlistBuilder } from "core/domain/builders/WishlistBuilder";
 import GetWishlistUseCase from "../GetWishlistUseCase";
-import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
 
 jest.mock("ui/api/repositories");
 
@@ -18,8 +17,8 @@ const fixtures = {
   ],
 };
 
-const repository = new WishlistRepository(wishlistRepository);
-const Presenter = new WishlistPresenter();
+const repository = WishlistBuilder.repositories(wishlistRepository);
+const Presenter = WishlistBuilder.presenter;
 
 describe("GetWishlistUseCase", () => {
   const usecase = new GetWishlistUseCase(repository);

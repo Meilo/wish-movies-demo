@@ -1,5 +1,5 @@
 import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
-import MoviesRepository from "core/adapters/repositories/MoviesRepository";
+import { MoviesRepositories } from "core/adapters/types";
 import { truncate, imagePath } from "core/domain/helpers";
 
 interface GetMovieUseCaseInterface {
@@ -12,7 +12,7 @@ interface GetMovieUseCaseInterface {
 }
 
 export default class GetMovieUseCase implements GetMovieUseCaseInterface {
-  constructor(private movieRepository: MoviesRepository) {}
+  constructor(private movieRepository: MoviesRepositories) {}
 
   async execute(
     toTransformed: boolean,
