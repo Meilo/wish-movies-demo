@@ -3,8 +3,14 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { MovieTransformed } from "core/domain/models";
 import useWishlist from "ui/hooks/useWishlist";
 
-const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
-  const { addMovie } = useWishlist(movie.id);
+const RowMovie = ({
+  movie,
+  updateMoviesList,
+}: {
+  movie: MovieTransformed;
+  updateMoviesList: () => void;
+}): ReactElement => {
+  const { addMovie } = useWishlist(movie.id, updateMoviesList);
   return (
     <View style={styles.item}>
       <Image style={styles.image} source={{ uri: movie.poster }} />
@@ -12,8 +18,16 @@ const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
         <Text style={styles.title}>{movie.title}</Text>
         <Text style={styles.overview}>{movie.overview}</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => addMovie()}>
-        <Text style={styles.center}>Add to wishlist</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          if (movie.isInWishlist) return null;
+          addMovie();
+        }}
+      >
+        <Text style={styles.center}>
+          {movie.isInWishlist ? `Remove` : `Add`}
+        </Text>
       </TouchableOpacity>
     </View>
   );

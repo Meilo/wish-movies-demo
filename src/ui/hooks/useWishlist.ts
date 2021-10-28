@@ -1,7 +1,7 @@
 import { useState } from "react";
 import wishlistControllerHandler from "ui/services/handleControllers/wishlistControllerHandler";
 
-const useWishlist = (movieId: number) => {
+const useWishlist = (movieId: number, updater?: () => void) => {
   const [msg, setMsg] = useState<string | null>(null);
   const [error, setError] = useState<any>(null);
   const vm = wishlistControllerHandler.vm;
@@ -13,6 +13,7 @@ const useWishlist = (movieId: number) => {
       if (vm.msg) {
         setMsg(vm.msg);
         setIsLoading(vm.loading);
+        if (updater) updater();
       }
     } catch (err) {
       setError(err);

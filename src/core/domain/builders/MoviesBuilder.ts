@@ -23,6 +23,9 @@ export const MoviesBuilder = {
   },
   repositories: (repositories: MoviesRepositories) => {
     return {
+      getItemStatusInWishlist: (movieId: number) => {
+        return repositories.getItemStatusInWishlist(movieId);
+      },
       getDiscoverMovies: () => {
         return repositories.getDiscoverMovies();
       },

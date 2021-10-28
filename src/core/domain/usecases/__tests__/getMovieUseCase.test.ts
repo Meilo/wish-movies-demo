@@ -1,4 +1,3 @@
-import MoviesRepository from "core/adapters/repositories/MoviesRepository";
 import { moviesRepository as repository } from "ui/api/repositories";
 import {
   MovieIntegraleTransformed as MovieAllInfoTransformed,

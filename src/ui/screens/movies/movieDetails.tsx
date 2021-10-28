@@ -10,16 +10,18 @@ import {
 import useMovies from "ui/hooks/useMovies";
 
 import { LoadingComponent, ErrorComponent } from "ui/components";
+import useWishlist from "ui/hooks/useWishlist";
 
 const MovieDetails = ({
   route,
 }: {
   route: { params: { id: number; title: string } };
 }): ReactElement => {
-  const { data, isLoading, error } = useMovies({
+  const { data, isLoading, error, retry } = useMovies({
     movieId: route.params.id,
     toTransformed: false,
   });
+  const { addMovie } = useWishlist(route.params.id, retry);
 
   if (error) return <ErrorComponent />;
   if (isLoading) return <LoadingComponent />;
@@ -34,8 +36,10 @@ const MovieDetails = ({
         <ScrollView style={styles.card}>
           <Text style={styles.title}>{data[0].title}</Text>
           <Text style={styles.text}>{data[0].overview}</Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.center}>Add to wishlist</Text>
+          <TouchableOpacity style={styles.button} onPress={() => addMovie()}>
+            <Text style={styles.center}>
+              {data[0].isInWishlist ? `Remove to wishlist` : `Add to wishlist`}
+            </Text>
           </TouchableOpacity>
         </ScrollView>
       </ImageBackground>

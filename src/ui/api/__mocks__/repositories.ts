@@ -11,6 +11,7 @@ export const wishlistRepository = {
 };
 
 export const moviesRepository = {
+  getItemStatusInWishlist,
   getDiscoverMovies,
   getMovieById,
 };

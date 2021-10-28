@@ -6,7 +6,9 @@ jest.mock("ui/api/repositories");
 describe("useWishlist", () => {
   it("Should add a movie in the wishlist", async () => {
     //Given
-    const { result, waitForNextUpdate } = renderHook(() => useWishlist(33));
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useWishlist(33, () => null)
+    );
     //When
     act(() => {
       result.current.addMovie();

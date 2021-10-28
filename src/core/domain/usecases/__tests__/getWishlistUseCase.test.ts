@@ -13,6 +13,7 @@ const fixtures = {
       title: "Naruto",
       poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
       overview: "bla",
+      isInWishlist: true,
     },
   ],
 };

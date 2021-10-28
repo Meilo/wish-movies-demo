@@ -20,10 +20,10 @@ const useMovies = ({ movieId, limit = 5, toTransformed }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(vm.loading);
   const [error, setError] = useState(null);
 
-  const getMovies = async () => {
+  const getMovies = async (isComponentMounted?: boolean) => {
     try {
       await moviesController.retreive({ limit, movieId, toTransformed });
-      if (vm.movies) {
+      if (!isComponentMounted && vm.movies) {
         setMovies(vm.movies);
         setIsLoading(vm.loading);
       }
@@ -33,7 +33,11 @@ const useMovies = ({ movieId, limit = 5, toTransformed }: Props) => {
   };
 
   useEffect(() => {
-    getMovies();
+    let isComponentMounted = false;
+    getMovies(isComponentMounted);
+    return () => {
+      isComponentMounted = true;
+    };
   }, []);
 
   return {

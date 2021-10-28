@@ -16,12 +16,17 @@ export default class GetWishlistUseCase implements GetWishlistUseCaseInterface {
       presenter.displayWishlist({
         id: wishlist.id,
         name: wishlist.name,
-        movies: wishlist.items.map((movie) => ({
-          id: movie.id,
-          title: movie.title,
-          poster: imagePath(movie.poster_path),
-          overview: movie.overview,
-        })),
+        movies: await Promise.all(
+          wishlist.items.map(async (movie) => ({
+            id: movie.id,
+            title: movie.title,
+            poster: imagePath(movie.poster_path),
+            overview: movie.overview,
+            isInWishlist: await this.wishlistRepository.getItemStatusInWishlist(
+              movie.id
+            ),
+          }))
+        ),
       });
     }
   }

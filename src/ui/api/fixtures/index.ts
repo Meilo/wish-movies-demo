@@ -18,26 +18,32 @@ const commonFieds = {
 export const Movies = [
   {
     ...commonFieds,
+    isInWishlist: true,
     id: 1,
   },
   {
     ...commonFieds,
+    isInWishlist: true,
     id: 2,
   },
   {
     ...commonFieds,
+    isInWishlist: true,
     id: 3,
   },
   {
     ...commonFieds,
+    isInWishlist: true,
     id: 4,
   },
   {
     ...commonFieds,
+    isInWishlist: true,
     id: 5,
   },
   {
     ...commonFieds,
+    isInWishlist: true,
     id: 6,
   },
 ];
@@ -65,6 +71,7 @@ export const MovieIntegraleTransformed = {
   video: false,
   vote_average: 3,
   vote_count: 3,
+  isInWishlist: true,
 };
 
 export const MoviesTransformed = [
@@ -73,36 +80,42 @@ export const MoviesTransformed = [
     title: "Naruto",
     poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
     overview: "bla",
+    isInWishlist: true,
   },
   {
     id: 2,
     title: "Naruto",
     poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
     overview: "bla",
+    isInWishlist: true,
   },
   {
     id: 3,
     title: "Naruto",
     poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
     overview: "bla",
+    isInWishlist: true,
   },
   {
     id: 4,
     title: "Naruto",
     poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
     overview: "bla",
+    isInWishlist: true,
   },
   {
     id: 5,
     title: "Naruto",
     poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
     overview: "bla",
+    isInWishlist: true,
   },
   {
     id: 6,
     title: "Naruto",
     poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
     overview: "bla",
+    isInWishlist: true,
   },
 ];
 

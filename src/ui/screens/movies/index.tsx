@@ -41,7 +41,7 @@ const Movies = ({ navigation }: MoviesType): ReactElement => {
               })
             }
           >
-            <RowMovie movie={item} />
+            <RowMovie movie={item} updateMoviesList={retry} />
           </TouchableOpacity>
         )}
       />

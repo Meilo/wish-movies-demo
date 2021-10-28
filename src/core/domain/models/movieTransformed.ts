@@ -3,4 +3,5 @@ export type MovieTransformed = {
   poster: string;
   title: string;
   overview: string;
+  isInWishlist: boolean;
 };

@@ -23,6 +23,9 @@ export default class GetMovieUseCase implements GetMovieUseCaseInterface {
     presenter.displayMoviesLoading();
     const movie = await this.movieRepository.getMovieById(movieId);
     if (movie) {
+      const isInWishlist = await this.movieRepository.getItemStatusInWishlist(
+        movie.id
+      );
       const posterType = withBackDropImage
         ? imagePath(movie.backdrop_path)
         : imagePath(movie.poster_path);
@@ -33,12 +36,14 @@ export default class GetMovieUseCase implements GetMovieUseCaseInterface {
               title: movie.title,
               poster: posterType,
               overview: truncate(movie.overview),
+              isInWishlist,
             },
           ]
         : [
             {
               ...movie,
               poster: posterType,
+              isInWishlist,
             },
           ];
       presenter.displayMovies(newMovie);

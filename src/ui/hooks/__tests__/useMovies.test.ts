@@ -32,6 +32,7 @@ describe("useMovies", () => {
         video: false,
         vote_average: 3,
         vote_count: 3,
+        isInWishlist: true,
       },
     ]);
     expect(result.current.error).toBe(null);
@@ -54,6 +55,7 @@ describe("useMovies", () => {
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",
+        isInWishlist: true,
       },
     ]);
     expect(result.current.error).toBe(null);
@@ -77,36 +79,42 @@ describe("useMovies", () => {
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",
+        isInWishlist: true,
       },
       {
         id: 2,
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",
+        isInWishlist: true,
       },
       {
         id: 3,
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",
+        isInWishlist: true,
       },
       {
         id: 4,
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",
+        isInWishlist: true,
       },
       {
         id: 5,
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",
+        isInWishlist: true,
       },
       {
         id: 6,
         overview: "bla",
         poster: "https://image.tmdb.org/t/p/w440_and_h660_faceImage de Naruto",
         title: "Naruto",
+        isInWishlist: true,
       },
     ]);
     expect(result.current.error).toBe(null);
