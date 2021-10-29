@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { useEffect, ReactElement } from "react";
 import {
   StyleSheet,
   View,
@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 import { LoadingComponent, ErrorComponent } from "ui/components";
-import useMovies from "ui/hooks/useMovies";
+import { fetchMovies } from "ui/store/slices/moviesSlice";
+import { RootState } from "ui/store";
 import RowMovie from "./rowMovie";
 
 type MoviesType = {
@@ -18,19 +20,29 @@ type MoviesType = {
 };
 
 const Movies = ({ navigation }: MoviesType): ReactElement => {
-  const { data, error, isLoading, retry } = useMovies({ limit: 15 });
+  const dispatch = useDispatch();
+  const { movies, loading, error } = useSelector(
+    (state: RootState) => state.movies
+  );
+
+  useEffect(() => {
+    dispatch(fetchMovies({ limit: 15 }));
+  }, []);
 
   if (error) return <ErrorComponent />;
-  if (isLoading) return <LoadingComponent />;
+  if (loading) return <LoadingComponent />;
 
   return (
     <View testID="movies">
       <FlatList
         refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={() => retry()} />
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => dispatch(fetchMovies({ limit: 15 }))}
+          />
         }
         style={styles.flatlist}
-        data={data}
+        data={movies}
         keyExtractor={(movie) => String(movie.id)}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -41,7 +53,7 @@ const Movies = ({ navigation }: MoviesType): ReactElement => {
               })
             }
           >
-            <RowMovie movie={item} updateMoviesList={retry} />
+            <RowMovie movie={item} />
           </TouchableOpacity>
         )}
       />

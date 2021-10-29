@@ -1,16 +1,15 @@
 import React, { ReactElement } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
 import { MovieTransformed } from "core/domain/models";
 import useWishlist from "ui/hooks/useWishlist";
+import { fetchMovies } from "ui/store/slices/moviesSlice";
 
-const RowMovie = ({
-  movie,
-  updateMoviesList,
-}: {
-  movie: MovieTransformed;
-  updateMoviesList: () => void;
-}): ReactElement => {
-  const { addMovie } = useWishlist(movie.id, updateMoviesList);
+const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
+  const dispatch = useDispatch();
+  const { addMovie } = useWishlist(movie.id, () =>
+    dispatch(fetchMovies({ limit: 15 }))
+  );
   return (
     <View style={styles.item}>
       <Image style={styles.image} source={{ uri: movie.poster }} />

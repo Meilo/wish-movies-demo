@@ -4,7 +4,7 @@ export type MoviesProps = {
   limit?: number;
   toTransformed?: boolean;
   withBackDropImage?: boolean;
-  movieId: number | undefined;
+  movieId?: number | undefined;
 };
 
 export type WishlistRepositories = {

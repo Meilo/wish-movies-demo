@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import {
   Text,
   View,
@@ -7,45 +7,60 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import useMovies from "ui/hooks/useMovies";
+import { useDispatch, useSelector } from "react-redux";
 
 import { LoadingComponent, ErrorComponent } from "ui/components";
 import useWishlist from "ui/hooks/useWishlist";
+import { RootState } from "ui/store";
+import { fetchMovie } from "ui/store/slices/movieSlice";
+import { fetchMovies } from "ui/store/slices/moviesSlice";
 
 const MovieDetails = ({
   route,
 }: {
   route: { params: { id: number; title: string } };
 }): ReactElement => {
-  const { data, isLoading, error, retry } = useMovies({
-    movieId: route.params.id,
-    toTransformed: false,
+  const dispatch = useDispatch();
+  const { movie, loading, error } = useSelector(
+    (state: RootState) => state.movie
+  );
+
+  useEffect(() => {
+    dispatch(fetchMovie({ movieId: route.params.id, toTransformed: false }));
+  }, []);
+
+  const { addMovie } = useWishlist(route.params.id, () => {
+    dispatch(fetchMovie({ movieId: route.params.id, toTransformed: false }));
+    dispatch(fetchMovies({ limit: 15 }));
   });
-  const { addMovie } = useWishlist(route.params.id, retry);
 
   if (error) return <ErrorComponent />;
-  if (isLoading) return <LoadingComponent />;
+  if (loading) return <LoadingComponent />;
+  if (!movie) return <View />;
 
-  return data.length > 0 ? (
-    <View testID={data[0].title}>
+  return (
+    <View testID={movie.title}>
       <ImageBackground
         resizeMode="cover"
         style={styles.image}
-        source={{ uri: data[0].poster }}
+        source={{ uri: movie.poster }}
       >
         <ScrollView style={styles.card}>
-          <Text style={styles.title}>{data[0].title}</Text>
-          <Text style={styles.text}>{data[0].overview}</Text>
-          <TouchableOpacity style={styles.button} onPress={() => addMovie()}>
+          <Text style={styles.title}>{movie.title}</Text>
+          <Text style={styles.text}>{movie.overview}</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              addMovie();
+            }}
+          >
             <Text style={styles.center}>
-              {data[0].isInWishlist ? `Remove to wishlist` : `Add to wishlist`}
+              {movie.isInWishlist ? `Remove to wishlist` : `Add to wishlist`}
             </Text>
           </TouchableOpacity>
         </ScrollView>
       </ImageBackground>
     </View>
-  ) : (
-    <View testID="NoMovie" />
   );
 };
 
