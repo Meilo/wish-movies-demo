@@ -7,7 +7,7 @@ import { fetchMovies } from "ui/store/slices/moviesSlice";
 
 const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
   const dispatch = useDispatch();
-  const { addMovie } = useWishlist(movie.id, () =>
+  const { addMovie, removeMovie } = useWishlist(movie.id, () =>
     dispatch(fetchMovies({ limit: 15 }))
   );
   return (
@@ -19,10 +19,7 @@ const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {
-          if (movie.isInWishlist) return null;
-          addMovie();
-        }}
+        onPress={() => (movie.isInWishlist ? removeMovie() : addMovie())}
       >
         <Text style={styles.center}>
           {movie.isInWishlist ? `Remove` : `Add`}

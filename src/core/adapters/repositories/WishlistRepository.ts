@@ -11,7 +11,7 @@ export default class WishlistRepository {
   addMovieInWishlist(movieId: number) {
     return this.repositories.addMovieInWishlist(movieId);
   }
-  removeMovieInWishlist() {
-    return this.repositories.removeMovieInWishlist();
+  removeMovieInWishlist(movieId: number) {
+    return this.repositories.removeMovieInWishlist(movieId);
   }
 }

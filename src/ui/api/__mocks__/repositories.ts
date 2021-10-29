@@ -7,7 +7,7 @@ export const wishlistRepository = {
   getMyWishlist,
   getItemStatusInWishlist,
   addMovieInWishlist: () => Promise.resolve({ statusCode: 201 }),
-  removeMovieInWishlist: () => Promise.resolve({ statusCode: 200 }),
+  removeMovieInWishlist: () => Promise.resolve({ statusCode: 201 }),
 };
 
 export const moviesRepository = {

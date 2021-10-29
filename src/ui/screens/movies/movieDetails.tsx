@@ -29,7 +29,7 @@ const MovieDetails = ({
     dispatch(fetchMovie({ movieId: route.params.id, toTransformed: false }));
   }, []);
 
-  const { addMovie } = useWishlist(route.params.id, () => {
+  const { addMovie, removeMovie } = useWishlist(route.params.id, () => {
     dispatch(fetchMovie({ movieId: route.params.id, toTransformed: false }));
     dispatch(fetchMovies({ limit: 15 }));
   });
@@ -50,9 +50,7 @@ const MovieDetails = ({
           <Text style={styles.text}>{movie.overview}</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => {
-              addMovie();
-            }}
+            onPress={() => (movie.isInWishlist ? removeMovie() : addMovie())}
           >
             <Text style={styles.center}>
               {movie.isInWishlist ? `Remove to wishlist` : `Add to wishlist`}

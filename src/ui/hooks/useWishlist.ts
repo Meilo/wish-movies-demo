@@ -19,8 +19,22 @@ const useWishlist = (movieId: number, updater?: () => void) => {
       setError(err);
     }
   };
+
+  const removeMovie = async () => {
+    try {
+      await wishlistController.remove(movieId);
+      if (vm.msg) {
+        setMsg(vm.msg);
+        setIsLoading(vm.loading);
+        if (updater) updater();
+      }
+    } catch (err) {
+      setError(err);
+    }
+  };
   return {
     addMovie,
+    removeMovie,
     msg,
     error,
     isLoading,

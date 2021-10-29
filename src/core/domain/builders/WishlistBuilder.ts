@@ -37,8 +37,8 @@ export const WishlistBuilder = {
       addMovieInWishlist: (movieId: number) => {
         return repositories.addMovieInWishlist(movieId);
       },
-      removeMovieInWishlist: () => {
-        return repositories.removeMovieInWishlist();
+      removeMovieInWishlist: (movieId: number) => {
+        return repositories.removeMovieInWishlist(movieId);
       },
     };
   },

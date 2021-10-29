@@ -16,8 +16,10 @@ export default class RemoveMovieInWishlistUseCase
     if (!movieIsPresentInWishlist) {
       presenter.displayMessage("wishlist.movieNotFound");
     } else {
-      const result = await this.wishlistRepository.removeMovieInWishlist();
-      if (result.statusCode === 200) {
+      const result = await this.wishlistRepository.removeMovieInWishlist(
+        movieId
+      );
+      if (result.statusCode === 201) {
         presenter.displayMessage("wishlist.movieHasBeenRemoved");
       } else {
         presenter.displayMessage("wishlist.error");

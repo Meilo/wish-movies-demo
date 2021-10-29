@@ -18,4 +18,19 @@ describe("useWishlist", () => {
     //Then
     expect(result.current.msg).toBe("wishlist.movieAddWithSuccess");
   });
+
+  it("Should remove a movie in the wishlist", async () => {
+    //Given
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useWishlist(1, () => null)
+    );
+    //When
+    act(() => {
+      result.current.removeMovie();
+    });
+
+    await waitForNextUpdate();
+    //Then
+    expect(result.current.msg).toBe("wishlist.movieHasBeenRemoved");
+  });
 });
