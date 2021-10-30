@@ -9,11 +9,10 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { LoadingComponent, ErrorComponent } from "ui/components";
+import { ErrorComponent } from "ui/components";
 import useWishlist from "ui/hooks/useWishlist";
 import { RootState } from "ui/store";
 import { fetchMovie } from "ui/store/slices/movieSlice";
-import { fetchMovies } from "ui/store/slices/moviesSlice";
 
 const MovieDetails = ({
   route,
@@ -21,24 +20,19 @@ const MovieDetails = ({
   route: { params: { id: number; title: string } };
 }): ReactElement => {
   const dispatch = useDispatch();
-  const { movie, loading, error } = useSelector(
-    (state: RootState) => state.movie
-  );
+  const { movie, error } = useSelector((state: RootState) => state.movie);
 
   useEffect(() => {
     dispatch(fetchMovie({ movieId: route.params.id, toTransformed: false }));
-  }, []);
+  }, [route.params.id]);
 
   const { addMovie, removeMovie } = useWishlist(route.params.id, () => {
     dispatch(fetchMovie({ movieId: route.params.id, toTransformed: false }));
-    dispatch(fetchMovies({ limit: 15 }));
   });
 
   if (error) return <ErrorComponent />;
-  if (loading) return <LoadingComponent />;
-  if (!movie) return <View />;
 
-  return (
+  return movie ? (
     <View testID={movie.title}>
       <ImageBackground
         resizeMode="cover"
@@ -59,6 +53,8 @@ const MovieDetails = ({
         </ScrollView>
       </ImageBackground>
     </View>
+  ) : (
+    <View />
   );
 };
 

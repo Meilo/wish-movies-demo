@@ -1,15 +1,8 @@
 import React, { ReactElement } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { MovieTransformed } from "core/domain/models";
-import useWishlist from "ui/hooks/useWishlist";
-import { fetchMovies } from "ui/store/slices/moviesSlice";
 
 const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
-  const dispatch = useDispatch();
-  const { addMovie, removeMovie } = useWishlist(movie.id, () =>
-    dispatch(fetchMovies({ limit: 15 }))
-  );
   return (
     <View style={styles.item}>
       <Image style={styles.image} source={{ uri: movie.poster }} />
@@ -17,14 +10,6 @@ const RowMovie = ({ movie }: { movie: MovieTransformed }): ReactElement => {
         <Text style={styles.title}>{movie.title}</Text>
         <Text style={styles.overview}>{movie.overview}</Text>
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => (movie.isInWishlist ? removeMovie() : addMovie())}
-      >
-        <Text style={styles.center}>
-          {movie.isInWishlist ? `Remove` : `Add`}
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -42,26 +27,13 @@ const styles = StyleSheet.create({
   },
   item: {
     paddingTop: 10,
+    paddingLeft: 5,
     display: "flex",
-    flex: 1,
-    alignItems: "center",
     flexDirection: "row",
     width: "100%",
-    justifyContent: "center",
   },
   infos: {
     width: "55%",
-  },
-  button: {
-    width: 105,
-    height: 30,
-    backgroundColor: "#F12",
-    justifyContent: "center",
-    borderRadius: 5,
-  },
-  center: {
-    color: "#FFF",
-    textAlign: "center",
   },
 });
 

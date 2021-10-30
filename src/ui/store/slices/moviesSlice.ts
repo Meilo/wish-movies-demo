@@ -28,17 +28,17 @@ const moviesSlice = createSlice({
       | MovieTransformed[]
       | MovieIntegraleTransformed[]
       | undefined,
-    loading: vm.loading,
+    loading: false,
     error: false,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchMovies.pending, (state) => {
-      state.loading = vm.loading;
+      state.loading = true;
     });
     builder.addCase(fetchMovies.fulfilled, (state) => {
       state.movies = vm.movies;
-      state.loading = vm.loading;
+      state.loading = false;
     });
     builder.addCase(fetchMovies.rejected, (state) => {
       state.error = true;

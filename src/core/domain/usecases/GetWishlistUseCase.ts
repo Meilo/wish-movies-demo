@@ -1,6 +1,6 @@
 import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
 import { WishlistRepositories } from "core/adapters/types";
-import { imagePath } from "core/domain/helpers";
+import { imagePath, truncate } from "core/domain/helpers";
 
 interface GetWishlistUseCaseInterface {
   execute(presenter: WishlistPresenter): Promise<void>;
@@ -21,7 +21,7 @@ export default class GetWishlistUseCase implements GetWishlistUseCaseInterface {
             id: movie.id,
             title: movie.title,
             poster: imagePath(movie.poster_path),
-            overview: movie.overview,
+            overview: truncate(movie.overview),
             isInWishlist: await this.wishlistRepository.getItemStatusInWishlist(
               movie.id
             ),

@@ -1,46 +1,37 @@
 import React, { useEffect, ReactElement } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  TouchableOpacity,
-  RefreshControl,
-} from "react-native";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { LoadingComponent, ErrorComponent } from "ui/components";
+import { ErrorComponent } from "ui/components";
 import { fetchMovies } from "ui/store/slices/moviesSlice";
 import { RootState } from "ui/store";
 import RowMovie from "./rowMovie";
 
-type MoviesType = {
+export type Navigation = {
   navigation: {
     navigate: (root: string, params: { id: number; title: string }) => void;
+    addListener: Function;
   };
 };
 
-const Movies = ({ navigation }: MoviesType): ReactElement => {
+const Movies = ({ navigation }: Navigation): ReactElement => {
   const dispatch = useDispatch();
-  const { movies, loading, error } = useSelector(
-    (state: RootState) => state.movies
-  );
+  const { movies, error } = useSelector((state: RootState) => state.movies);
 
   useEffect(() => {
-    dispatch(fetchMovies({ limit: 15 }));
+    const unsubscribe = navigation.addListener("focus", () => {
+      dispatch(fetchMovies({ limit: 15 }));
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
   }, []);
 
   if (error) return <ErrorComponent />;
-  if (loading) return <LoadingComponent />;
 
   return (
     <View testID="movies">
       <FlatList
-        refreshControl={
-          <RefreshControl
-            refreshing={loading}
-            onRefresh={() => dispatch(fetchMovies({ limit: 15 }))}
-          />
-        }
         style={styles.flatlist}
         data={movies}
         keyExtractor={(movie) => String(movie.id)}

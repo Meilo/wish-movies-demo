@@ -8,7 +8,7 @@ interface WishlistPresenterInrterface {
 }
 
 export class WishlistPresenterVM {
-  loading = false;
+  loading = true;
   msg?: string;
   wishlist?: WishlistTransformed;
 }

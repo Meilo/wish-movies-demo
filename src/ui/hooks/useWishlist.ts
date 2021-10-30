@@ -1,20 +1,26 @@
 import { useState } from "react";
 import wishlistControllerHandler from "ui/services/handleControllers/wishlistControllerHandler";
 
+const vm = wishlistControllerHandler.vm;
+const wishlist = wishlistControllerHandler.controller;
+
 const useWishlist = (movieId: number, updater?: () => void) => {
-  const [msg, setMsg] = useState<string | null>(null);
-  const [error, setError] = useState<any>(null);
-  const vm = wishlistControllerHandler.vm;
+  const [msg, setMsg] = useState<string | undefined>(vm.msg);
   const [isLoading, setIsLoading] = useState<boolean>(vm.loading);
-  const wishlistController = wishlistControllerHandler.controller;
+  const [error, setError] = useState<any>(null);
+
+  const stateManagment = () => {
+    if (vm.msg) {
+      setMsg(vm.msg);
+      setIsLoading(vm.loading);
+      if (updater) updater();
+    }
+  };
+
   const addMovie = async () => {
     try {
-      await wishlistController.add(movieId);
-      if (vm.msg) {
-        setMsg(vm.msg);
-        setIsLoading(vm.loading);
-        if (updater) updater();
-      }
+      await wishlist.add(movieId);
+      stateManagment();
     } catch (err) {
       setError(err);
     }
@@ -22,12 +28,8 @@ const useWishlist = (movieId: number, updater?: () => void) => {
 
   const removeMovie = async () => {
     try {
-      await wishlistController.remove(movieId);
-      if (vm.msg) {
-        setMsg(vm.msg);
-        setIsLoading(vm.loading);
-        if (updater) updater();
-      }
+      await wishlist.remove(movieId);
+      stateManagment();
     } catch (err) {
       setError(err);
     }
