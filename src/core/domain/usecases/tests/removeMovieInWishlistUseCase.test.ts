@@ -1,5 +1,5 @@
 import { wishlistRepository as repository } from "ui/api/repositories";
-import { WishlistBuilder } from "core/domain/builders/WishlistBuilder";
+import { WishlistBuilder } from "./builders/WishlistBuilder";
 import RemoveMovieInWishlistUseCase from "../RemoveMovieInWishlistUseCase";
 
 jest.mock("ui/api/repositories");
@@ -10,13 +10,13 @@ describe("RemoveMovieInWishlistUseCase", () => {
   it("Should return an error message if movie is not in the wishlist", async () => {
     const wishlistRepository = WishlistBuilder.repositories(repository);
     const usecase = new RemoveMovieInWishlistUseCase(wishlistRepository);
-    await usecase.execute(333, Presenter);
+    await usecase.execute(Presenter, 333);
     expect(Presenter.vm.msg).toBe("wishlist.movieNotFound");
   });
   it("Should return a success message if movie is removed in wishlist", async () => {
     const wishlistRepository = WishlistBuilder.repositories(repository);
     const usecase = new RemoveMovieInWishlistUseCase(wishlistRepository);
-    await usecase.execute(1, Presenter);
+    await usecase.execute(Presenter, 1);
     expect(Presenter.vm.msg).toBe("wishlist.movieHasBeenRemoved");
   });
   it("Should return an error message if movie not removed in the wishlist", async () => {
@@ -25,7 +25,7 @@ describe("RemoveMovieInWishlistUseCase", () => {
       removeMovieInWishlist: () => Promise.resolve({ statusCode: 400 }),
     });
     const usecase = new RemoveMovieInWishlistUseCase(wishlistRepository);
-    await usecase.execute(1, Presenter);
+    await usecase.execute(Presenter, 1);
     expect(Presenter.vm.msg).toBe("wishlist.error");
   });
 });

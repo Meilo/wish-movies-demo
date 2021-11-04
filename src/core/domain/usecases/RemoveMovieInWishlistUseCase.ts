@@ -1,16 +1,11 @@
-import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
-import { WishlistRepositories } from "core/adapters/types";
+import { WishlistPresentation } from "../models/presenters/wishlistPresentation";
+import { WishlistRepositories } from "../models/repositories/wishlistRepositories";
+import { WishlistUseCase } from "../models/usecases/wishlistUseCase";
 
-interface RemoveMovieInWishlistUseCaseInterface {
-  execute(movieId: number, presenter: WishlistPresenter): Promise<void>;
-}
-
-export default class RemoveMovieInWishlistUseCase
-  implements RemoveMovieInWishlistUseCaseInterface
-{
+export default class RemoveMovieInWishlistUseCase implements WishlistUseCase {
   constructor(private wishlistRepository: WishlistRepositories) {}
 
-  async execute(movieId: number, presenter: WishlistPresenter) {
+  async execute(presenter: WishlistPresentation, movieId: number) {
     const movieIsPresentInWishlist =
       await this.wishlistRepository.getItemStatusInWishlist(movieId);
     if (!movieIsPresentInWishlist) {

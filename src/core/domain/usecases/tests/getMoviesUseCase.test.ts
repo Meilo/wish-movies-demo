@@ -1,6 +1,6 @@
 import { moviesRepository as repository } from "ui/api/repositories";
 import { MoviesTransformed as Movies } from "ui/api/fixtures";
-import { MoviesBuilder } from "core/domain/builders/MoviesBuilder";
+import { MoviesBuilder } from "./builders/MoviesBuilder";
 import GetMoviesUseCase from "../GetMoviesUseCase";
 
 jest.mock("ui/api/repositories");
@@ -14,13 +14,13 @@ describe("GetMoviesUseCase", () => {
       getDiscoverMovies: () => Promise.resolve([]),
     });
     const usecase = new GetMoviesUseCase(moviesRepository);
-    await usecase.execute(undefined, undefined, Presenter);
+    await usecase.execute({ presenter: Presenter });
     expect(Presenter.vm.loading).toBeTruthy();
   });
   it("Should display all movies if hasn't limit", async () => {
     const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMoviesUseCase(moviesRepository);
-    await usecase.execute(undefined, undefined, Presenter);
+    await usecase.execute({ presenter: Presenter });
     expect(Presenter.vm.loading).toBeFalsy();
     expect(Presenter.vm.movies?.length).toBe(6);
     expect(Presenter.vm.movies).toStrictEqual(Movies);
@@ -28,7 +28,7 @@ describe("GetMoviesUseCase", () => {
   it("Should display movies based on limit", async () => {
     const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMoviesUseCase(moviesRepository);
-    await usecase.execute(1, undefined, Presenter);
+    await usecase.execute({ limit: 1, presenter: Presenter });
     expect(Presenter.vm.loading).toBeFalsy();
     expect(Presenter.vm.movies?.length).toBe(1);
     expect(Presenter.vm.movies).toStrictEqual([Movies[0]]);
@@ -36,7 +36,11 @@ describe("GetMoviesUseCase", () => {
   it("Should display movies with withBackDropImage", async () => {
     const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMoviesUseCase(moviesRepository);
-    await usecase.execute(1, true, Presenter);
+    await usecase.execute({
+      limit: 1,
+      presenter: Presenter,
+      withBackDropImage: true,
+    });
     expect(Presenter.vm.loading).toBeFalsy();
     expect(Presenter.vm.movies?.length).toBe(1);
     expect(Presenter.vm.movies).toStrictEqual([

@@ -1,15 +1,12 @@
-import WishlistPresenter from "core/adapters/presenters/WishlistPresenter";
-import { WishlistRepositories } from "core/adapters/types";
 import { imagePath, truncate } from "core/domain/helpers";
+import { WishlistPresentation } from "../models/presenters/wishlistPresentation";
+import { WishlistRepositories } from "../models/repositories/wishlistRepositories";
+import { WishlistUseCase } from "../models/usecases/wishlistUseCase";
 
-interface GetWishlistUseCaseInterface {
-  execute(presenter: WishlistPresenter): Promise<void>;
-}
-
-export default class GetWishlistUseCase implements GetWishlistUseCaseInterface {
+export default class GetWishlistUseCase implements WishlistUseCase {
   constructor(private wishlistRepository: WishlistRepositories) {}
 
-  async execute(presenter: WishlistPresenter) {
+  async execute(presenter: WishlistPresentation) {
     presenter.displayWishlistLoading();
     const wishlist = await this.wishlistRepository.getMyWishlist();
     if (wishlist) {

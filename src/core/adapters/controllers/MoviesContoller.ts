@@ -1,15 +1,17 @@
-import { GetMoviesUseCase, GetMovieUseCase } from "core/domain/usecases";
-import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
-import { MoviesProps } from "core/adapters/types";
-import Controller from "./Controller";
+import {
+  Controller,
+  MoviesProps,
+} from "core/domain/models/controllers/contoller";
+import { MoviesPresentation } from "core/domain/models/presenters/moviesPresentation";
+import { MoviesUseCase } from "core/domain/models/usecases/moviesUseCase";
 
 export default class MoviesController implements Controller {
   constructor(
     private usecases: {
-      getMoviesUseCase: GetMoviesUseCase;
-      getMovieUseCase: GetMovieUseCase;
+      getMoviesUseCase: MoviesUseCase;
+      getMovieUseCase: MoviesUseCase;
     },
-    private moviesPresenter: MoviesPresenter
+    private moviesPresenter: MoviesPresentation
   ) {}
 
   async retreive({
@@ -19,18 +21,18 @@ export default class MoviesController implements Controller {
     movieId = undefined,
   }: MoviesProps) {
     if (movieId) {
-      await this.usecases.getMovieUseCase.execute(
+      await this.usecases.getMovieUseCase.execute({
         toTransformed,
         withBackDropImage,
-        this.moviesPresenter,
-        movieId
-      );
+        presenter: this.moviesPresenter,
+        movieId,
+      });
     } else {
-      await this.usecases.getMoviesUseCase.execute(
+      await this.usecases.getMoviesUseCase.execute({
         limit,
-        false,
-        this.moviesPresenter
-      );
+        withBackDropImage: false,
+        presenter: this.moviesPresenter,
+      });
     }
   }
 }

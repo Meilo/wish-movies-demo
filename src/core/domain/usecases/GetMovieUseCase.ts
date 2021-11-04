@@ -1,27 +1,18 @@
-import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
-import { MoviesRepositories } from "core/adapters/types";
 import { truncate, imagePath } from "core/domain/helpers";
+import { MoviesRepositories } from "../models/repositories/moviesRepositories";
+import { MoviesUseCase, ExecuteProps } from "../models/usecases/moviesUseCase";
 
-interface GetMovieUseCaseInterface {
-  execute(
-    toTransformed: boolean | undefined,
-    withBackDropImage: boolean | undefined,
-    presenter: MoviesPresenter,
-    movieId: number
-  ): Promise<void>;
-}
-
-export default class GetMovieUseCase implements GetMovieUseCaseInterface {
+export default class GetMovieUseCase implements MoviesUseCase {
   constructor(private movieRepository: MoviesRepositories) {}
 
-  async execute(
-    toTransformed: boolean,
-    withBackDropImage: boolean,
-    presenter: MoviesPresenter,
-    movieId: number
-  ): Promise<void> {
+  async execute({
+    toTransformed = false,
+    withBackDropImage = true,
+    presenter,
+    movieId,
+  }: ExecuteProps) {
     presenter.displayMoviesLoading();
-    const movie = await this.movieRepository.getMovieById(movieId);
+    const movie = movieId && (await this.movieRepository.getMovieById(movieId));
     if (movie) {
       const isInWishlist = await this.movieRepository.getItemStatusInWishlist(
         movie.id

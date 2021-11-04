@@ -1,5 +1,5 @@
 import { wishlistRepository } from "ui/api/repositories";
-import { WishlistBuilder } from "core/domain/builders/WishlistBuilder";
+import { WishlistBuilder } from "./builders/WishlistBuilder";
 import GetWishlistUseCase from "../GetWishlistUseCase";
 
 jest.mock("ui/api/repositories");

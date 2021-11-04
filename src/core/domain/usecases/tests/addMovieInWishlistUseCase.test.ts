@@ -1,5 +1,5 @@
 import { wishlistRepository as repository } from "ui/api/repositories";
-import { WishlistBuilder } from "core/domain/builders/WishlistBuilder";
+import { WishlistBuilder } from "./builders/WishlistBuilder";
 import AddMovieInWishlistUseCase from "../AddMovieInWishlistUseCase";
 
 jest.mock("ui/api/repositories");
@@ -10,14 +10,14 @@ describe("AddMovieInWishlistUseCase", () => {
   it("Should return an error message if movie is present in wishlist", async () => {
     const wishlistRepository = WishlistBuilder.repositories(repository);
     const usecase = new AddMovieInWishlistUseCase(wishlistRepository);
-    await usecase.execute(1, Presenter);
+    await usecase.execute(Presenter, 1);
     expect(Presenter.vm.msg).toBe("wishlist.movieAlreadyExist");
     expect(Presenter.vm.loading).toBeFalsy();
   });
   it("Should return a success message if movie add to wishlist ", async () => {
     const wishlistRepository = WishlistBuilder.repositories(repository);
     const usecase = new AddMovieInWishlistUseCase(wishlistRepository);
-    await usecase.execute(3333, Presenter);
+    await usecase.execute(Presenter, 3333);
     expect(Presenter.vm.msg).toBe("wishlist.movieAddWithSuccess");
     expect(Presenter.vm.loading).toBeFalsy();
   });
@@ -27,7 +27,7 @@ describe("AddMovieInWishlistUseCase", () => {
       addMovieInWishlist: () => Promise.resolve({ statusCode: 404 }),
     });
     const usecase = new AddMovieInWishlistUseCase(wishlistRepository);
-    await usecase.execute(3333, Presenter);
+    await usecase.execute(Presenter, 3333);
     expect(Presenter.vm.msg).toBe("wishlist.error");
     expect(Presenter.vm.loading).toBeFalsy();
   });

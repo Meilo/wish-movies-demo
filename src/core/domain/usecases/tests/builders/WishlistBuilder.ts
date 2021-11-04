@@ -1,5 +1,5 @@
-import { WishlistRepositories } from "core/adapters/types";
-import { WishlistTransformed } from "../models";
+import { WishlistTransformed } from "core/domain/models";
+import { WishlistRepositories } from "core/domain/models/repositories/wishlistRepositories";
 
 let vm: {
   wishlist?: WishlistTransformed;

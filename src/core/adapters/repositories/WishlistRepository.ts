@@ -1,7 +1,8 @@
-import { WishlistRepositories } from "core/adapters/types";
+import { WishlistRepositories } from "core/domain/models/repositories/wishlistRepositories";
 
-export default class WishlistRepository {
+export default class WishlistRepository implements WishlistRepositories {
   constructor(private repositories: WishlistRepositories) {}
+
   getItemStatusInWishlist(movieId: number) {
     return this.repositories.getItemStatusInWishlist(movieId);
   }

@@ -1,5 +1,8 @@
-import { MoviesRepositories } from "core/adapters/types";
-import { MovieIntegraleTransformed, MovieTransformed } from "../models";
+import {
+  MovieIntegraleTransformed,
+  MovieTransformed,
+} from "core/domain/models";
+import { MoviesRepositories } from "core/domain/models/repositories/moviesRepositories";
 
 let vm: {
   movies: MovieTransformed[] | MovieIntegraleTransformed[];

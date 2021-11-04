@@ -1,7 +1,7 @@
-import getDiscoverMovies from "config/src/ui/api/__mocks__/getDiscoverMovies";
-import getItemStatusInWishlist from "config/src/ui/api/__mocks__/getItemStatusInWishlist";
-import getMovieById from "config/src/ui/api/__mocks__/getMovieById";
-import getMyWishlist from "config/src/ui/api/__mocks__/getMyWishlist";
+import getDiscoverMovies from "ui/api/__mocks__/getDiscoverMovies";
+import getItemStatusInWishlist from "ui/api/__mocks__/getItemStatusInWishlist";
+import getMovieById from "ui/api/__mocks__/getMovieById";
+import getMyWishlist from "ui/api/__mocks__/getMyWishlist";
 
 export const wishlistRepository = {
   getMyWishlist,

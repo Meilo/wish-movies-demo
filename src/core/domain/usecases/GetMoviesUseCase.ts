@@ -1,24 +1,16 @@
-import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
-import { MoviesRepositories } from "core/adapters/types";
 import { truncate, imagePath } from "core/domain/helpers";
 import { Movie } from "../models";
+import { MoviesRepositories } from "../models/repositories/moviesRepositories";
+import { MoviesUseCase, ExecuteProps } from "../models/usecases/moviesUseCase";
 
-interface GetMoviesUseCaseInterface {
-  execute(
-    limit: number | undefined,
-    withBackDropImage: boolean | undefined,
-    presenter: MoviesPresenter
-  ): Promise<void>;
-}
-
-export default class GetMoviesUseCase implements GetMoviesUseCaseInterface {
+export default class GetMoviesUseCase implements MoviesUseCase {
   constructor(private moviesRepository: MoviesRepositories) {}
 
-  async execute(
-    limit: number | undefined = undefined,
-    withBackDropImage: boolean | undefined = false,
-    presenter: MoviesPresenter
-  ): Promise<void> {
+  async execute({
+    limit = undefined,
+    withBackDropImage = false,
+    presenter,
+  }: ExecuteProps) {
     presenter.displayMoviesLoading();
     const movies = await this.moviesRepository.getDiscoverMovies();
     const nbItems: number = limit || movies.length;

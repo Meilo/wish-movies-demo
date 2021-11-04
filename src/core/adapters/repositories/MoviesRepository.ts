@@ -1,6 +1,6 @@
-import { MoviesRepositories } from "core/adapters/types";
+import { MoviesRepositories } from "core/domain/models/repositories/moviesRepositories";
 
-export default class MoviesRepository {
+export default class MoviesRepository implements MoviesRepositories {
   constructor(private repositories: MoviesRepositories) {}
 
   getItemStatusInWishlist(movieId: number) {

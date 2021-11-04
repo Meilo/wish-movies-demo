@@ -3,8 +3,7 @@ import {
   MovieIntegraleTransformed as MovieAllInfoTransformed,
   MoviesTransformed,
 } from "ui/api/fixtures";
-import MoviesPresenter from "core/adapters/presenters/MoviesPresenter";
-import { MoviesBuilder } from "core/domain/builders/MoviesBuilder";
+import { MoviesBuilder } from "./builders/MoviesBuilder";
 import GetMovieUseCase from "../GetMovieUseCase";
 
 jest.mock("ui/api/repositories");
@@ -19,13 +18,13 @@ describe("GetMoviesUseCase", () => {
       getMovieById: () => Promise.resolve(null),
     });
     const usecase = new GetMovieUseCase(moviesRepository);
-    await usecase.execute(false, true, Presenter, 1);
+    await usecase.execute({ presenter: Presenter, movieId: 1 });
     expect(Presenter.vm.loading).toBeTruthy();
   });
   it("Should return a movie", async () => {
     const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMovieUseCase(moviesRepository);
-    await usecase.execute(false, true, Presenter, 1);
+    await usecase.execute({ presenter: Presenter, movieId: 1 });
     expect(Presenter.vm.movies).toStrictEqual([MovieAllInfoTransformed]);
     expect(Presenter.vm.loading).toBeFalsy();
   });
@@ -33,7 +32,11 @@ describe("GetMoviesUseCase", () => {
   it("Should return a movie transformed with backdrop path image", async () => {
     const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMovieUseCase(moviesRepository);
-    await usecase.execute(true, true, Presenter, 1);
+    await usecase.execute({
+      presenter: Presenter,
+      movieId: 1,
+      toTransformed: true,
+    });
     expect(Presenter.vm.movies).toStrictEqual([
       {
         ...MoviesTransformed[0],
@@ -46,7 +49,12 @@ describe("GetMoviesUseCase", () => {
   it("Should return a movie transformed with poster path image", async () => {
     const moviesRepository = MoviesBuilder.repositories(repository);
     const usecase = new GetMovieUseCase(moviesRepository);
-    await usecase.execute(true, false, Presenter, 1);
+    await usecase.execute({
+      presenter: Presenter,
+      movieId: 1,
+      toTransformed: true,
+      withBackDropImage: false,
+    });
     expect(Presenter.vm.movies).toStrictEqual([MoviesTransformed[0]]);
     expect(Presenter.vm.loading).toBeFalsy();
   });

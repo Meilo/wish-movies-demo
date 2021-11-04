@@ -2,12 +2,8 @@ import {
   MovieIntegraleTransformed,
   MovieTransformed,
 } from "core/domain/models";
+import { MoviesPresentation } from "core/domain/models/presenters/moviesPresentation";
 import Presenter from "./Presenter";
-
-interface MoviesPresenterInterface {
-  displayMoviesLoading(): void;
-  displayMovies(movies: MovieTransformed[]): void;
-}
 
 export class MoviesPresenterVM {
   loading = true;
@@ -16,7 +12,7 @@ export class MoviesPresenterVM {
 
 export default class MoviesPresenter
   extends Presenter<MoviesPresenterVM>
-  implements MoviesPresenterInterface
+  implements MoviesPresentation
 {
   constructor() {
     super(new MoviesPresenterVM());
